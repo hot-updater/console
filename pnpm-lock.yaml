@@ -14,21 +14,21 @@ importers:
     dependencies:
       '@hot-updater/cli-tools':
         specifier: ^0.35.1
-        version: 0.35.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)
+        version: 0.35.1(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)
       '@hot-updater/console':
         specifier: https://pkg.pr.new/gronxb/hot-updater/@hot-updater/console@c11bf75
-        version: https://pkg.pr.new/gronxb/hot-updater/@hot-updater/console@c11bf75(@hot-updater/cli-tools@0.35.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1))(kysely@0.29.3)
+        version: https://pkg.pr.new/gronxb/hot-updater/@hot-updater/console@c11bf75(@hot-updater/cli-tools@0.35.1(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2))
       hot-updater:
         specifier: ^0.35.1
-        version: 0.35.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(kysely@0.29.3)
+        version: 0.35.1(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)
 
 packages:
 
-  '@emnapi/core@1.11.1':
-    resolution: {integrity: sha512-RSvbQmHzdKzNsLYa/wHrbc3KN4sYLKAdPZxqiM2HATqv/SBk2/ENSHpvXGaLOMcsAyz0poEGqkmmKYG3OWiJEQ==}
+  '@emnapi/core@1.11.2':
+    resolution: {integrity: sha512-TC8MkTuZUtcTSiFeuC0ksCh9QIJ5+F21MvZ4Wn4ORfYaFJ/0dsiudv5tVkejgwZlwQ39jL9WWDe2lz8x0WglOA==}
 
-  '@emnapi/runtime@1.11.1':
-    resolution: {integrity: sha512-vgj7R3y3Wgx24IQaGPA/R6YFXLHVMOZ0uVEyIQPaWs+rd1AzfEMXlAC22FYwO1XkKR6NPsq7mUandH8oIRdZFw==}
+  '@emnapi/runtime@1.11.2':
+    resolution: {integrity: sha512-kyOl3X0DuTiT1h2ft8r2fYO8JYtU9a9Xis/zBSiGArNaagCOWx90N1k2wxp18czFDH+OgcWGb5ZP/XMt3dcyPA==}
 
   '@emnapi/wasi-threads@1.2.2':
     resolution: {integrity: sha512-c95qOXkHdydNKhscBTebqEC1CVAZpyqOfVfBzQ1qgzyl3gfeldUjIggDbIZgDKsHLgnsM+igH7TJ/eAasaVuMA==}
@@ -52,7 +52,7 @@ packages:
       '@hot-updater/cli-tools': '*'
 
   '@hot-updater/console@https://pkg.pr.new/gronxb/hot-updater/@hot-updater/console@c11bf75':
-    resolution: {tarball: https://pkg.pr.new/gronxb/hot-updater/@hot-updater/console@c11bf75}
+    resolution: {integrity: sha512-ZEqmHrwsrierfJqkpAz7QzD/KkyDGJ90UVAqNPMu1BafY/uECn5ZBxcazIfacLs9qqi/a3BB8C5s9o1gnMnRQQ==, tarball: https://pkg.pr.new/gronxb/hot-updater/@hot-updater/console@c11bf75}
     version: 0.35.1
     hasBin: true
     peerDependencies:
@@ -314,10 +314,6 @@ packages:
     resolution: {integrity: sha512-AC/7JofJvZGrrneWNaEnJeOLUx+JlGt7tNa0wZiRPT4MY1wmfKjt2+6O2p2uz2+skll8OZZmJMNqeke7kKbNgQ==}
     hasBin: true
 
-  kysely@0.29.3:
-    resolution: {integrity: sha512-VHtBdW6XB/pgoTSqraM3UAa2rYoYdNXqnNPpX+8XXP+cwYbVEFuAp3HyPt1vpNfU9l7Y2kpUrA9QDPsy8uUqOQ==}
-    engines: {node: '>=22.0.0'}
-
   mime@4.1.0:
     resolution: {integrity: sha512-X5ju04+cAzsojXKes0B/S4tcYtFAJ6tTMuSPBEn9CPGlrWr8Fiw7qYeLT0XyH80HSoAoqWCaz+MWKh22P7G1cw==}
     engines: {node: '>=16'}
@@ -414,13 +410,13 @@ packages:
 
 snapshots:
 
-  '@emnapi/core@1.11.1':
+  '@emnapi/core@1.11.2':
     dependencies:
       '@emnapi/wasi-threads': 1.2.2
       tslib: 2.8.1
     optional: true
 
-  '@emnapi/runtime@1.11.1':
+  '@emnapi/runtime@1.11.2':
     dependencies:
       tslib: 2.8.1
     optional: true
@@ -430,9 +426,9 @@ snapshots:
       tslib: 2.8.1
     optional: true
 
-  '@hot-updater/android-helper@0.35.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)':
+  '@hot-updater/android-helper@0.35.1(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)':
     dependencies:
-      '@hot-updater/cli-tools': 0.35.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)
+      '@hot-updater/cli-tools': 0.35.1(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)
       '@hot-updater/core': 0.35.1
       '@hot-updater/plugin-core': 0.35.1
       execa: 9.5.2
@@ -440,9 +436,9 @@ snapshots:
       - '@emnapi/core'
       - '@emnapi/runtime'
 
-  '@hot-updater/apple-helper@0.35.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)':
+  '@hot-updater/apple-helper@0.35.1(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)':
     dependencies:
-      '@hot-updater/cli-tools': 0.35.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)
+      '@hot-updater/cli-tools': 0.35.1(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)
       '@hot-updater/plugin-core': 0.35.1
       execa: 9.5.2
       fast-xml-parser: 5.8.0
@@ -452,33 +448,33 @@ snapshots:
 
   '@hot-updater/bsdiff@0.35.1': {}
 
-  '@hot-updater/cli-tools@0.35.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)':
+  '@hot-updater/cli-tools@0.35.1(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)':
     dependencies:
       '@hot-updater/core': 0.35.1
       '@hot-updater/plugin-core': 0.35.1
-      oxc-transform: 0.121.0(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)
+      oxc-transform: 0.121.0(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)
       typescript: 6.0.2
       unconfig: 7.5.0
     transitivePeerDependencies:
       - '@emnapi/core'
       - '@emnapi/runtime'
 
-  '@hot-updater/console@0.35.1(@hot-updater/cli-tools@0.35.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1))(kysely@0.29.3)':
+  '@hot-updater/console@0.35.1(@hot-updater/cli-tools@0.35.1(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2))':
     dependencies:
       '@hot-updater/bsdiff': 0.35.1
-      '@hot-updater/cli-tools': 0.35.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)
-      '@hot-updater/server': 0.35.1(kysely@0.29.3)
+      '@hot-updater/cli-tools': 0.35.1(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)
+      '@hot-updater/server': 0.35.1
     transitivePeerDependencies:
       - '@prisma/client'
       - drizzle-orm
       - kysely
       - mongodb
 
-  '@hot-updater/console@https://pkg.pr.new/gronxb/hot-updater/@hot-updater/console@c11bf75(@hot-updater/cli-tools@0.35.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1))(kysely@0.29.3)':
+  '@hot-updater/console@https://pkg.pr.new/gronxb/hot-updater/@hot-updater/console@c11bf75(@hot-updater/cli-tools@0.35.1(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2))':
     dependencies:
       '@hot-updater/bsdiff': 0.35.1
-      '@hot-updater/cli-tools': 0.35.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)
-      '@hot-updater/server': 0.35.1(kysely@0.29.3)
+      '@hot-updater/cli-tools': 0.35.1(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)
+      '@hot-updater/server': 0.35.1
     transitivePeerDependencies:
       - '@prisma/client'
       - drizzle-orm
@@ -499,7 +495,7 @@ snapshots:
       mime: 4.1.0
       semver: 7.8.5
 
-  '@hot-updater/server@0.35.1(kysely@0.29.3)':
+  '@hot-updater/server@0.35.1':
     dependencies:
       '@hot-updater/bsdiff': 0.35.1
       '@hot-updater/core': 0.35.1
@@ -507,13 +503,11 @@ snapshots:
       '@hot-updater/plugin-core': 0.35.1
       rou3: 0.7.9
       semver: 7.8.5
-    optionalDependencies:
-      kysely: 0.29.3
 
-  '@napi-rs/wasm-runtime@1.1.6(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)':
+  '@napi-rs/wasm-runtime@1.1.6(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)':
     dependencies:
-      '@emnapi/core': 1.11.1
-      '@emnapi/runtime': 1.11.1
+      '@emnapi/core': 1.11.2
+      '@emnapi/runtime': 1.11.2
       '@tybys/wasm-util': 0.10.3
     optional: true
 
@@ -567,9 +561,9 @@ snapshots:
   '@oxc-transform/binding-openharmony-arm64@0.121.0':
     optional: true
 
-  '@oxc-transform/binding-wasm32-wasi@0.121.0(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)':
+  '@oxc-transform/binding-wasm32-wasi@0.121.0(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)':
     dependencies:
-      '@napi-rs/wasm-runtime': 1.1.6(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)
+      '@napi-rs/wasm-runtime': 1.1.6(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)
     transitivePeerDependencies:
       - '@emnapi/core'
       - '@emnapi/runtime'
@@ -646,15 +640,15 @@ snapshots:
       '@sec-ant/readable-stream': 0.4.1
       is-stream: 4.0.1
 
-  hot-updater@0.35.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(kysely@0.29.3):
+  hot-updater@0.35.1(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2):
     dependencies:
-      '@hot-updater/android-helper': 0.35.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)
-      '@hot-updater/apple-helper': 0.35.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)
-      '@hot-updater/cli-tools': 0.35.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)
-      '@hot-updater/console': 0.35.1(@hot-updater/cli-tools@0.35.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1))(kysely@0.29.3)
+      '@hot-updater/android-helper': 0.35.1(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)
+      '@hot-updater/apple-helper': 0.35.1(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)
+      '@hot-updater/cli-tools': 0.35.1(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)
+      '@hot-updater/console': 0.35.1(@hot-updater/cli-tools@0.35.1(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2))
       '@hot-updater/core': 0.35.1
       '@hot-updater/plugin-core': 0.35.1
-      '@hot-updater/server': 0.35.1(kysely@0.29.3)
+      '@hot-updater/server': 0.35.1
       jiti: 2.6.1
     transitivePeerDependencies:
       - '@emnapi/core'
@@ -678,9 +672,6 @@ snapshots:
 
   jiti@2.7.0: {}
 
-  kysely@0.29.3:
-    optional: true
-
   mime@4.1.0: {}
 
   npm-run-path@6.0.0:
@@ -688,7 +679,7 @@ snapshots:
       path-key: 4.0.0
       unicorn-magic: 0.3.0
 
-  oxc-transform@0.121.0(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1):
+  oxc-transform@0.121.0(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2):
     optionalDependencies:
       '@oxc-transform/binding-android-arm-eabi': 0.121.0
       '@oxc-transform/binding-android-arm64': 0.121.0
@@ -706,7 +697,7 @@ snapshots:
       '@oxc-transform/binding-linux-x64-gnu': 0.121.0
       '@oxc-transform/binding-linux-x64-musl': 0.121.0
       '@oxc-transform/binding-openharmony-arm64': 0.121.0
-      '@oxc-transform/binding-wasm32-wasi': 0.121.0(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)
+      '@oxc-transform/binding-wasm32-wasi': 0.121.0(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)
       '@oxc-transform/binding-win32-arm64-msvc': 0.121.0
       '@oxc-transform/binding-win32-ia32-msvc': 0.121.0
       '@oxc-transform/binding-win32-x64-msvc': 0.121.0
