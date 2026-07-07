@@ -1,0 +1,3 @@
+overrides:
+  "@hot-updater/bsdiff": ^0.35.1
+  "@hot-updater/server": ^0.35.1
