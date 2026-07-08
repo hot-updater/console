@@ -3,17 +3,33 @@
   "private": true,
   "type": "module",
   "version": "0.0.0",
-  "description": "Deployable Hot Updater Console wrapper",
+  "description": "Deployable Hot Updater Console",
   "license": "MIT",
   "packageManager": "pnpm@11.6.0",
   "scripts": {
-    "dev": "hot-updater-console",
-    "start": "hot-updater-console",
-    "serve": "hot-updater-console"
+    "dev": "vite dev --port 3000",
+    "build": "vite build && node copy-assets.mjs",
+    "preview": "vite preview",
+    "start": "node .output/server/index.mjs",
+    "test:type": "tsc --noEmit"
   },
   "dependencies": {
     "@hot-updater/cli-tools": "^0.35.1",
-    "@hot-updater/console": "https://pkg.pr.new/gronxb/hot-updater/@hot-updater/console@c11bf75",
-    "hot-updater": "^0.35.1"
+    "@hot-updater/console": "https://pkg.pr.new/gronxb/hot-updater/@hot-updater/console@8a519ec4c9c134888295b27bdb9ad6db49ae816a",
+    "hot-updater": "^0.35.1",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  },
+  "devDependencies": {
+    "@tanstack/react-router": "^1.167.0",
+    "@tanstack/react-start": "^1.166.11",
+    "@types/node": "^25.5.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^6.0.1",
+    "nitro": "3.0.260610-beta",
+    "typescript": "^6.0.2",
+    "vite": "8.0.8",
+    "vitest": "4.1.4"
   }
 }
