@@ -8,6 +8,8 @@ import type {
 } from "@hot-updater/console/hosted";
 import { createServerFn } from "@tanstack/react-start";
 
+import { requireConsoleSession } from "./auth.server";
+
 type ConsoleServerApi = ReturnType<typeof createHotUpdaterConsoleApi>;
 type JsonValue =
   | boolean
@@ -100,11 +102,10 @@ const toSerializableBundle = (bundle: ConsoleBundle): SerializableBundle => {
 const getConsoleApi = async () => {
   if (!apiPromise) {
     apiPromise = Promise.all([
-      import("@hot-updater/cli-tools"),
+      import("../../hot-updater.config"),
       import("@hot-updater/console/hosted"),
     ])
-      .then(async ([{ loadConfig }, { createHotUpdaterConsoleApi }]) => {
-        const config = await loadConfig(null);
+      .then(async ([{ default: config }, { createHotUpdaterConsoleApi }]) => {
         return createHotUpdaterConsoleApi(config);
       })
       .catch((error) => {
@@ -116,23 +117,28 @@ const getConsoleApi = async () => {
   return apiPromise;
 };
 
+const getGuardedConsoleApi = async () => {
+  await requireConsoleSession();
+  return getConsoleApi();
+};
+
 const getConfig = createServerFn().handler(async () => {
-  const config = await (await getConsoleApi()).getConfig();
+  const config = await (await getGuardedConsoleApi()).getConfig();
   return config.console ? { console: toJsonObject(config.console) } : {};
 });
 
 const getConfigLoaded = createServerFn().handler(async () => {
-  return (await getConsoleApi()).getConfigLoaded();
+  return (await getGuardedConsoleApi()).getConfigLoaded();
 });
 
 const getChannels = createServerFn().handler(async () => {
-  return (await getConsoleApi()).getChannels();
+  return (await getGuardedConsoleApi()).getChannels();
 });
 
 const getBundles = createServerFn({ method: "GET" })
   .validator((input: BundleFilters | undefined) => input)
   .handler(async ({ data }): Promise<SerializableBundleList> => {
-    const bundles = await (await getConsoleApi()).getBundles(data);
+    const bundles = await (await getGuardedConsoleApi()).getBundles(data);
     return {
       data: bundles.data.map(toSerializableBundle),
       pagination: bundles.pagination,
@@ -142,33 +148,33 @@ const getBundles = createServerFn({ method: "GET" })
 const getBundle = createServerFn({ method: "GET" })
   .validator((input: { bundleId: string }) => input)
   .handler(async ({ data }) => {
-    const bundle = await (await getConsoleApi()).getBundle(data);
+    const bundle = await (await getGuardedConsoleApi()).getBundle(data);
     return bundle ? toSerializableBundle(bundle) : null;
   });
 
 const getBundleChildren = createServerFn({ method: "GET" })
   .validator((input: { baseBundleId: string }) => input)
   .handler(async ({ data }) => {
-    const bundles = await (await getConsoleApi()).getBundleChildren(data);
+    const bundles = await (await getGuardedConsoleApi()).getBundleChildren(data);
     return bundles.map(toSerializableBundle);
   });
 
 const getBundleChildCounts = createServerFn({ method: "GET" })
   .validator((input: { bundleIds: string[] }) => input)
   .handler(async ({ data }) => {
-    return (await getConsoleApi()).getBundleChildCounts(data);
+    return (await getGuardedConsoleApi()).getBundleChildCounts(data);
   });
 
 const getBundleDownloadUrl = createServerFn({ method: "GET" })
   .validator((input: { bundleId: string }) => input)
   .handler(async ({ data }) => {
-    return (await getConsoleApi()).getBundleDownloadUrl(data);
+    return (await getGuardedConsoleApi()).getBundleDownloadUrl(data);
   });
 
 const updateBundle = createServerFn({ method: "POST" })
   .validator((input: { bundle: JsonObject; bundleId: string }) => input)
   .handler(async ({ data }) => {
-    const result = await (await getConsoleApi()).updateBundle(data);
+    const result = await (await getGuardedConsoleApi()).updateBundle(data);
     return {
       ...result,
       bundle: toSerializableBundle(result.bundle),
@@ -185,7 +191,7 @@ const promoteBundle = createServerFn({ method: "POST" })
     }) => input,
   )
   .handler(async ({ data }) => {
-    const result = await (await getConsoleApi()).promoteBundle(data);
+    const result = await (await getGuardedConsoleApi()).promoteBundle(data);
     return {
       ...result,
       bundle: toSerializableBundle(result.bundle),
@@ -195,13 +201,13 @@ const promoteBundle = createServerFn({ method: "POST" })
 const createBundle = createServerFn({ method: "POST" })
   .validator((input: SerializableBundle) => input)
   .handler(async ({ data }) => {
-    return (await getConsoleApi()).createBundle(data);
+    return (await getGuardedConsoleApi()).createBundle(data);
   });
 
 const deleteBundle = createServerFn({ method: "POST" })
   .validator((input: { bundleId: string }) => input)
   .handler(async ({ data }) => {
-    return (await getConsoleApi()).deleteBundle(data);
+    return (await getGuardedConsoleApi()).deleteBundle(data);
   });
 
 export const consoleApiClient = {

@@ -22,7 +22,6 @@ const config = defineConfig({
     noExternal: ["@hot-updater/console", "@hot-updater/core"],
     external: [
       "@hot-updater/bsdiff",
-      "@hot-updater/cli-tools",
       "oxc-transform",
       "@oxc-transform/binding-darwin-arm64",
       "@oxc-transform/binding-wasm32-wasi",
@@ -32,7 +31,6 @@ const config = defineConfig({
     rollupOptions: {
       external: [
         "@hot-updater/bsdiff",
-        "@hot-updater/cli-tools",
         "oxc-transform",
         "@oxc-transform/binding-darwin-arm64",
         "@oxc-transform/binding-wasm32-wasi",

@@ -6,6 +6,8 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 
+import "@/styles/auth.css";
+
 export const Route = createRootRoute({
   head: () => ({
     meta: [
