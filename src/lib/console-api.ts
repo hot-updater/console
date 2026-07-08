@@ -7,8 +7,13 @@ import type {
   createHotUpdaterConsoleApi,
 } from "@hot-updater/console/hosted";
 import { createServerFn } from "@tanstack/react-start";
+import { getRequest } from "@tanstack/react-start/server";
 
-import { requireConsoleSession } from "./auth.server";
+import {
+  getConsoleRuntimeEnv,
+  isConsoleSignUpEnabled,
+  requireConsoleSession,
+} from "./auth.server";
 
 type ConsoleServerApi = ReturnType<typeof createHotUpdaterConsoleApi>;
 type JsonValue =
@@ -129,6 +134,16 @@ const getConfig = createServerFn().handler(async () => {
 
 const getConfigLoaded = createServerFn().handler(async () => {
   return (await getGuardedConsoleApi()).getConfigLoaded();
+});
+
+export const getConsoleAuthSettings = createServerFn({
+  method: "GET",
+}).handler(() => {
+  return {
+    signUpEnabled: isConsoleSignUpEnabled(
+      getConsoleRuntimeEnv(getRequest()),
+    ),
+  };
 });
 
 const getChannels = createServerFn().handler(async () => {

@@ -7,6 +7,7 @@ export type ConsoleRuntimeEnv = {
   BETTER_AUTH_SECRET?: string;
   BETTER_AUTH_TRUSTED_ORIGINS?: string;
   BETTER_AUTH_URL?: string;
+  CONSOLE_AUTH_SIGN_UP_ENABLED?: string;
   CONSOLE_AUTH_MIGRATION_SECRET?: string;
 };
 
@@ -31,6 +32,7 @@ const getProcessEnv = (): ConsoleRuntimeEnv => {
     BETTER_AUTH_SECRET: env?.BETTER_AUTH_SECRET,
     BETTER_AUTH_TRUSTED_ORIGINS: env?.BETTER_AUTH_TRUSTED_ORIGINS,
     BETTER_AUTH_URL: env?.BETTER_AUTH_URL,
+    CONSOLE_AUTH_SIGN_UP_ENABLED: env?.CONSOLE_AUTH_SIGN_UP_ENABLED,
     CONSOLE_AUTH_MIGRATION_SECRET: env?.CONSOLE_AUTH_MIGRATION_SECRET,
   };
 };
@@ -74,6 +76,10 @@ const getAuthBaseUrl = (env: ConsoleRuntimeEnv, request?: Request) => {
   return request ? new URL(request.url).origin : undefined;
 };
 
+export const isConsoleSignUpEnabled = (env: ConsoleRuntimeEnv) => {
+  return env.CONSOLE_AUTH_SIGN_UP_ENABLED === "true";
+};
+
 export const getAuthForRequest = (
   request?: Request,
   runtimeEnv: ConsoleRuntimeEnv = {},
@@ -106,6 +112,7 @@ export const getAuthForRequest = (
     baseURL,
     database: env.AUTH_DB as BetterAuthOptions["database"],
     emailAndPassword: {
+      disableSignUp: !isConsoleSignUpEnabled(env),
       enabled: true,
     },
     secret: env.BETTER_AUTH_SECRET,

@@ -1,6 +1,6 @@
 name = "hot-updater-console"
 compatibility_date = "2026-07-08"
-compatibility_flags = ["nodejs_als"]
+compatibility_flags = ["nodejs_compat"]
 pages_build_output_dir = "dist"
 
 [[d1_databases]]

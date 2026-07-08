@@ -1,8 +1,11 @@
 import { HotUpdaterConsole } from "@hot-updater/console";
-import { type FormEvent, useState } from "react";
+import { type FormEvent, useEffect, useState } from "react";
 
 import { authClient } from "@/lib/auth-client";
-import { consoleApiClient } from "@/lib/console-api";
+import {
+  consoleApiClient,
+  getConsoleAuthSettings,
+} from "@/lib/console-api";
 
 type AuthMode = "sign-in" | "sign-up";
 
@@ -17,7 +20,14 @@ export function ConsoleRoute() {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [signUpEnabled, setSignUpEnabled] = useState(false);
   const [submitPending, setSubmitPending] = useState(false);
+
+  useEffect(() => {
+    void getConsoleAuthSettings().then((settings) => {
+      setSignUpEnabled(settings.signUpEnabled);
+    });
+  }, []);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -25,7 +35,7 @@ export function ConsoleRoute() {
     setSubmitPending(true);
 
     const result =
-      authMode === "sign-up"
+      authMode === "sign-up" && signUpEnabled
         ? await authClient.signUp.email({
             email,
             name: name || email,
@@ -65,7 +75,7 @@ export function ConsoleRoute() {
   }
 
   if (!session) {
-    const isSignUp = authMode === "sign-up";
+    const isSignUp = signUpEnabled && authMode === "sign-up";
 
     return (
       <main className="console-auth-shell">
@@ -136,19 +146,23 @@ export function ConsoleRoute() {
             </button>
           </form>
 
-          <p className="console-auth-switch">
-            {isSignUp ? "Already have an account?" : "Need the first account?"}{" "}
-            <button
-              className="console-auth-link"
-              onClick={() => {
-                setErrorMessage(null);
-                setAuthMode(isSignUp ? "sign-in" : "sign-up");
-              }}
-              type="button"
-            >
-              {isSignUp ? "Sign in" : "Create one"}
-            </button>
-          </p>
+          {signUpEnabled ? (
+            <p className="console-auth-switch">
+              {isSignUp
+                ? "Already have an account?"
+                : "Need the first account?"}{" "}
+              <button
+                className="console-auth-link"
+                onClick={() => {
+                  setErrorMessage(null);
+                  setAuthMode(isSignUp ? "sign-in" : "sign-up");
+                }}
+                type="button"
+              >
+                {isSignUp ? "Sign in" : "Create one"}
+              </button>
+            </p>
+          ) : null}
         </section>
       </main>
     );
