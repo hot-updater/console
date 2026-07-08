@@ -14,7 +14,7 @@
     "test:type": "tsc --noEmit"
   },
   "dependencies": {
-    "@hot-updater/console": "https://pkg.pr.new/gronxb/hot-updater/@hot-updater/console@373782fb6",
+    "@hot-updater/console": "https://pkg.pr.new/gronxb/hot-updater/@hot-updater/console@f08e0fd74",
     "better-auth": "^1.6.23",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
