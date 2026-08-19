@@ -1,0 +1,73 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: console
+      - uses: actions/checkout@v4
+        with:
+          repository: gronxb/hot-updater
+          ref: feat/deployable-console-package
+          path: hot-updater2
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.6.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: |
+            console/pnpm-lock.yaml
+            hot-updater2/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+        working-directory: hot-updater2
+      - run: pnpm --filter @hot-updater/console... build
+        working-directory: hot-updater2
+      - run: pnpm install --frozen-lockfile
+        working-directory: console
+      - run: pnpm test
+        working-directory: console
+      - run: pnpm test:type
+        working-directory: console
+
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        preset: [node_server, cloudflare_module]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: console
+      - uses: actions/checkout@v4
+        with:
+          repository: gronxb/hot-updater
+          ref: feat/deployable-console-package
+          path: hot-updater2
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.6.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: |
+            console/pnpm-lock.yaml
+            hot-updater2/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+        working-directory: hot-updater2
+      - run: pnpm --filter @hot-updater/console... build
+        working-directory: hot-updater2
+      - run: pnpm install --frozen-lockfile
+        working-directory: console
+      - run: NODE_ENV=production NITRO_PRESET=${{ matrix.preset }} pnpm exec vite build
+        working-directory: console

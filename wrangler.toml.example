@@ -1,9 +1,8 @@
 name = "hot-updater-console"
 compatibility_date = "2026-07-08"
 compatibility_flags = ["nodejs_compat"]
-pages_build_output_dir = "dist"
+main = ".output/server/index.mjs"
 
-[[d1_databases]]
-binding = "AUTH_DB"
-database_name = "hot-updater-console-auth"
-database_id = "<replace-with-cloudflare-d1-database-id>"
+[assets]
+binding = "ASSETS"
+directory = ".output/public"

@@ -1,4 +1,4 @@
-import type { HotUpdaterConsoleConfig } from "@hot-updater/console/hosted";
+import { defineConsoleConfig } from "@hot-updater/console";
 
 const missingPlugin = (name: string): never => {
   throw new Error(
@@ -6,8 +6,6 @@ const missingPlugin = (name: string): never => {
   );
 };
 
-export default {
-  console: {},
-  storage: () => missingPlugin("storage"),
-  database: () => missingPlugin("database"),
-} satisfies HotUpdaterConsoleConfig;
+export default defineConsoleConfig(() => {
+  return missingPlugin("database and storage");
+});
