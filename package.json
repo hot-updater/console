@@ -8,25 +8,24 @@
   "packageManager": "pnpm@11.6.0",
   "scripts": {
     "dev": "vite dev --port 3000",
-    "build": "vite build && node copy-assets.mjs",
+    "build": "NODE_ENV=production vite build",
+    "build:node": "NODE_ENV=production NITRO_PRESET=node_server vite build",
+    "build:cloudflare": "NODE_ENV=production NITRO_PRESET=cloudflare_module vite build",
     "preview": "vite preview",
     "start": "node .output/server/index.mjs",
+    "test": "vitest run",
     "test:type": "tsc --noEmit"
   },
   "dependencies": {
-    "@hot-updater/console": "https://pkg.pr.new/gronxb/hot-updater/@hot-updater/console@f08e0fd74",
+    "@hot-updater/console": "link:../hot-updater2/packages/console",
     "better-auth": "^1.6.23",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
   },
   "devDependencies": {
-    "@tanstack/react-router": "^1.167.0",
-    "@tanstack/react-start": "^1.166.11",
     "@types/node": "^25.5.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.0",
-    "@vitejs/plugin-react": "^6.0.1",
-    "nitro": "3.0.260610-beta",
     "typescript": "^6.0.2",
     "vite": "8.0.8",
     "vitest": "4.1.4"

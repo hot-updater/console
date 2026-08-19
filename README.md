@@ -1,137 +1,162 @@
 # Hot Updater Console
 
-Deployable Vite/Nitro shell for `@hot-updater/console`.
+A thin Vite and Nitro host for the full `@hot-updater/console` application. The
+package owns the UI, routes, and protected server functions; this repository
+owns deployment-specific Hot Updater providers and authentication settings.
 
-## Deployment Flow
-
-Clone this repository into the deployment project. The console application lives
-here; the reusable UI/API surface comes from `@hot-updater/console`.
+## Start locally
 
 ```bash
-git clone https://github.com/hot-updater/console
-cd console
 corepack enable
 pnpm install
-```
-
-Configure `hot-updater.config.ts` before building. The checked-in file is
-intentionally fail-closed: replace the placeholder `storage` and `database`
-plugins with the same Hot Updater plugins used by your OTA deployment. Provider
-plugins are passed through this file; the console package does not load provider
-config on its own.
-
-```typescript
-import { s3Database, s3Storage } from "@hot-updater/aws";
-import type { HotUpdaterConsoleConfig } from "@hot-updater/console/hosted";
-
-export default {
-  console: {},
-  storage: s3Storage({ bucketName: process.env.HOT_UPDATER_BUCKET! }),
-  database: s3Database({ bucketName: process.env.HOT_UPDATER_BUCKET! }),
-} satisfies HotUpdaterConsoleConfig;
-```
-
-Install any provider packages referenced by the config and set their credentials
-in the deployment environment. Do not commit credentials.
-
-Configure Better Auth with a dedicated auth database that is separate from the
-Hot Updater bundle database:
-
-```text
-AUTH_DB: Cloudflare D1 binding or equivalent Better Auth database
-BETTER_AUTH_SECRET: long random secret
-BETTER_AUTH_URL: deployed origin, for example https://console.example.com
-BETTER_AUTH_TRUSTED_ORIGINS: comma-separated extra origins, optional
-CONSOLE_AUTH_SIGN_UP_ENABLED: set to true only while bootstrapping accounts, optional
-CONSOLE_AUTH_MIGRATION_SECRET: one-time migration secret, optional
-```
-
-Run locally:
-
-```bash
+cp .env.example .env
 pnpm dev
 ```
 
-Build the Nitro server:
+Set at least one complete Google or GitHub OAuth credential pair in `.env`.
+OAuth callback URLs are:
 
-```bash
-pnpm build
+- `http://localhost:3000/api/auth/callback/google`
+- `http://localhost:3000/api/auth/callback/github`
+
+GitHub Apps need read-only access to email addresses. GitHub OAuth Apps need the
+`user:email` scope, which the template requests automatically.
+
+## Runtime Hot Updater configuration
+
+Do not move the entire React Native `hot-updater.config.ts` into this project.
+Build, native platform, fingerprint, and signing-key settings do not belong in a
+hosted console. Copy only the database, storage, `authorityId`, and optional
+console Git URL into this repository's `hot-updater.config.ts`.
+
+The checked-in config fails closed until providers are configured. For a Node
+deployment, it can return a static runtime-only object:
+
+```ts
+import { defineConsoleConfig } from "@hot-updater/console";
+import {
+  supabaseDatabase,
+  supabaseStorage,
+} from "@hot-updater/supabase";
+
+export default defineConsoleConfig({
+  authorityId: "my-app",
+  console: {
+    gitUrl: "https://github.com/example/mobile-app",
+  },
+  database: supabaseDatabase({
+    supabaseUrl: process.env.HOT_UPDATER_SUPABASE_URL!,
+    supabaseServiceRoleKey:
+      process.env.HOT_UPDATER_SUPABASE_SERVICE_ROLE_KEY!,
+  }),
+  storage: supabaseStorage({
+    supabaseUrl: process.env.HOT_UPDATER_SUPABASE_URL!,
+    supabaseServiceRoleKey:
+      process.env.HOT_UPDATER_SUPABASE_SERVICE_ROLE_KEY!,
+    bucketName: process.env.HOT_UPDATER_SUPABASE_BUCKET_NAME!,
+  }),
+});
 ```
 
-Start the built server:
+Install the provider package used by your config. Provider credentials are
+server-only runtime values and must not use Vite's `VITE_` prefix.
+
+Cloudflare bindings are request-scoped, so use a config factory:
+
+```ts
+import { d1Database, r2Storage } from "@hot-updater/cloudflare/worker";
+import { defineConsoleConfig } from "@hot-updater/console";
+
+type CloudflareRequest = Request & {
+  runtime?: {
+    cloudflare?: {
+      env?: {
+        DB: D1Database;
+        BUCKET: R2Bucket;
+        BUCKET_NAME: string;
+        STORAGE_DOWNLOAD_URL_SIGNING_KEY: string;
+      };
+    };
+  };
+};
+
+export default defineConsoleConfig((request) => {
+  const env = (request as CloudflareRequest).runtime?.cloudflare?.env;
+  if (!env) throw new Error("Cloudflare bindings are unavailable.");
+
+  return {
+    authorityId: "my-app",
+    database: d1Database(env.DB),
+    storage: r2Storage({
+      bucket: env.BUCKET,
+      bucketName: env.BUCKET_NAME,
+      downloadUrlSigningKey: env.STORAGE_DOWNLOAD_URL_SIGNING_KEY,
+    }),
+  };
+});
+```
+
+## Authentication
+
+`console.auth.ts` configures Better Auth without a database. OAuth state,
+accounts, and the 24-hour JWE session are stored in encrypted cookies. There
+are no auth migrations or password accounts.
+
+Required runtime variables:
+
+| Variable | Purpose |
+| --- | --- |
+| `BETTER_AUTH_SECRET` | At least 32 characters; rotating it invalidates existing sessions |
+| `BETTER_AUTH_URL` | Canonical public origin; HTTPS is required outside localhost |
+| `HOT_UPDATER_CONSOLE_ALLOWED_EMAILS` | Comma-separated full email addresses |
+| `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` | Optional complete Google pair |
+| `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET` | Optional complete GitHub pair |
+
+At least one provider pair is required. Email matching is case-normalized but
+otherwise exact: domain-only entries and wildcards are rejected. A provider
+must report the address as verified. Removing an address from the allowlist
+blocks its existing session on the next console request.
+
+Every console server function and bundle download authorizes before runtime
+provider initialization. Route guards are used only for the sign-in experience.
+Keep the deployment behind a VPN, IP allowlist, or identity-aware proxy when
+your environment requires another layer of access control.
+
+## Deploy with Nitro
+
+Node and Cloudflare Workers are the tested presets. Other Nitro presets can be
+selected with `NITRO_PRESET`, but provider packages must support that runtime.
+
+### Node
 
 ```bash
+pnpm build:node
 pnpm start
 ```
 
-## Nitro Deployment
+The server entry is `.output/server/index.mjs`. Set `PORT` or `NITRO_PORT` as
+required by the hosting provider, plus all authentication and Hot Updater
+provider variables.
 
-Use a Node-compatible hosting target with these commands:
-
-```text
-Install command: corepack enable && pnpm install --frozen-lockfile
-Build command:   pnpm build
-Start command:   pnpm start
-```
-
-`pnpm build` runs Vite with the Nitro plugin and writes the deployable server to
-`.output/server/index.mjs`. `pnpm start` runs that Nitro output directly.
-
-Set runtime environment variables for every value used by
-`hot-updater.config.ts`, such as storage buckets, database URLs, provider
-credentials, and signing key paths. Nitro's Node runtime usually reads `PORT`;
-set `NITRO_PORT` as well if your host requires it.
-
-## Cloudflare Pages
-
-Cloudflare Pages is supported through Nitro's `cloudflare_pages` preset. The
-auth database must be a dedicated D1 binding named `AUTH_DB`; do not reuse the
-Hot Updater bundle database for Better Auth tables.
-
-Create the auth database:
+### Cloudflare Workers
 
 ```bash
-pnpm dlx wrangler d1 create hot-updater-console-auth
 cp wrangler.toml.example wrangler.toml
+pnpm build:cloudflare
+pnpm dlx wrangler deploy
 ```
 
-Replace the `database_id` in `wrangler.toml`. After the first deploy, run the
-Better Auth migration endpoint once with a temporary
-`CONSOLE_AUTH_MIGRATION_SECRET` environment variable:
+Add the D1, R2, or other bindings used by `hot-updater.config.ts` to
+`wrangler.toml`. Store authentication values with `wrangler secret put`; they
+do not require a separate D1 database. The build uses Nitro's
+`cloudflare_module` preset and emits `.output/server/index.mjs` plus public
+assets under `.output/public`.
+
+## Verification
 
 ```bash
-curl -X POST \
-  -H "x-console-migration-secret: $CONSOLE_AUTH_MIGRATION_SECRET" \
-  https://console.example.com/api/console-auth/migrate
+pnpm test
+pnpm test:type
+pnpm build:node
+pnpm build:cloudflare
 ```
-
-Remove `CONSOLE_AUTH_MIGRATION_SECRET` after the migration succeeds. The route
-returns 404 when the secret is not configured.
-
-Build for Pages:
-
-```bash
-NITRO_PRESET=cloudflare_pages pnpm build
-```
-
-Deploy the generated Pages output:
-
-```bash
-pnpm dlx wrangler pages deploy dist
-```
-
-In the Cloudflare Pages project, set the build output directory to
-`dist`, bind the D1 database as `AUTH_DB`, and set the Better Auth and Hot
-Updater provider environment variables. The example uses `nodejs_compat`
-because TanStack Start and Better Auth import Node built-ins supported by the
-Cloudflare runtime. Nitro still emits a Pages worker under `dist`.
-
-## Access Control
-
-The console includes a Better Auth email/password gate and protects every
-console API server function with the active session. Public sign-up is disabled
-by default. Temporarily set `CONSOLE_AUTH_SIGN_UP_ENABLED=true` only when you
-need to bootstrap an account, then remove it again. You can still place the
-deployment behind SSO, VPN, IP allowlist, or an identity-aware reverse proxy for
-defense in depth. Keep OTA provider credentials in the runtime environment and
-avoid committing secrets.
