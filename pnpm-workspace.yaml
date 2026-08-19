@@ -1,0 +1,2 @@
+# pkg.pr.new packages use pinned tarball URLs for workspace dependencies.
+blockExoticSubdeps: false
