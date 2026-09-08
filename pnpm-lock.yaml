@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@hot-updater/console':
-        specifier: 1.0.0-rc.8
-        version: 1.0.0-rc.8(@neodrag/core@3.0.0-next.11)(@tanstack/query-core@5.101.4)(@tanstack/router-core@1.171.14)(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(chokidar@5.0.0)(crossws@0.4.9(srvx@0.11.21))(csstype@3.2.3)(dotenv@17.4.2)(esbuild@0.28.1)(jiti@2.7.0)(kysely@0.29.3)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.8)(react@19.2.7)(redux@5.0.1)(rolldown@1.1.4)(solid-js@1.9.15)(typescript@6.0.3)(vite@8.0.8(@types/node@25.9.4)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0))(wrangler@4.129.0)
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(@neodrag/core@3.0.0-next.11)(@tanstack/query-core@5.101.4)(@tanstack/router-core@1.171.14)(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(chokidar@5.0.0)(crossws@0.4.9(srvx@0.11.21))(csstype@3.2.3)(dotenv@17.4.2)(esbuild@0.28.1)(jiti@2.7.0)(kysely@0.29.3)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.8)(react@19.2.7)(redux@5.0.1)(rolldown@1.1.4)(solid-js@1.9.15)(typescript@6.0.3)(vite@8.0.8(@types/node@25.9.4)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0))(wrangler@4.129.0)
       better-auth:
         specifier: ^1.6.23
         version: 1.6.23(@tanstack/react-start@1.168.27(crossws@0.4.9(srvx@0.11.21))(esbuild@0.28.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(rolldown@1.1.4)(vite@8.0.8(@types/node@25.9.4)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0)))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(solid-js@1.9.15)(vitest@4.1.4(@types/node@25.9.4)(vite@8.0.8(@types/node@25.9.4)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0)))
@@ -661,8 +661,8 @@ packages:
   '@hot-updater/cloudflare@1.0.0-rc.5':
     resolution: {integrity: sha512-Nn9lXk34lNZP0Q0VjugwQLiu5zdAJtA/GyMFv47G9CATFdb9T2QqTzHet1+Ow24S8I0oVqTkcxq4zhoK81SuDg==}
 
-  '@hot-updater/console@1.0.0-rc.8':
-    resolution: {integrity: sha512-242WmwWsH8q0HN0RTVh4SJaVg5N3UsWppRPDqnQvfyUAH9KIWK03NfUaQwUvyQkXzBZZ/mWL87uRpgFOlu0Qzw==}
+  '@hot-updater/console@1.0.0-rc.9':
+    resolution: {integrity: sha512-AbD9rc9prh1ZC/bUh73iqfJaMky2hEF9Ww2NNuBZtnHg5CALZp4DbFLpwpRasuNvXq2V29kfOfQbKaCbk0dBbQ==}
     peerDependencies:
       '@hot-updater/cli-tools': '*'
       react: ^19.0.0
@@ -4816,7 +4816,7 @@ snapshots:
       - kysely
       - mongodb
 
-  '@hot-updater/console@1.0.0-rc.8(@neodrag/core@3.0.0-next.11)(@tanstack/query-core@5.101.4)(@tanstack/router-core@1.171.14)(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(chokidar@5.0.0)(crossws@0.4.9(srvx@0.11.21))(csstype@3.2.3)(dotenv@17.4.2)(esbuild@0.28.1)(jiti@2.7.0)(kysely@0.29.3)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.8)(react@19.2.7)(redux@5.0.1)(rolldown@1.1.4)(solid-js@1.9.15)(typescript@6.0.3)(vite@8.0.8(@types/node@25.9.4)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0))(wrangler@4.129.0)':
+  '@hot-updater/console@1.0.0-rc.9(@neodrag/core@3.0.0-next.11)(@tanstack/query-core@5.101.4)(@tanstack/router-core@1.171.14)(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(chokidar@5.0.0)(crossws@0.4.9(srvx@0.11.21))(csstype@3.2.3)(dotenv@17.4.2)(esbuild@0.28.1)(jiti@2.7.0)(kysely@0.29.3)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.8)(react@19.2.7)(redux@5.0.1)(rolldown@1.1.4)(solid-js@1.9.15)(typescript@6.0.3)(vite@8.0.8(@types/node@25.9.4)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0))(wrangler@4.129.0)':
     dependencies:
       '@base-ui/react': 1.7.0(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@fontsource-variable/inter': 5.3.0
