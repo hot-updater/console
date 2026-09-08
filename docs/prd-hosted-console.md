@@ -158,4 +158,17 @@ deployed.
 - Existing console issue: reloading event page 2 preserves its rows but resets
   the page number to 1 and disables Previous. The cursor is in the URL, while
   the previous-page stack is kept only in React state. This needs a console
-  package fix; it is not resolved by this deployment.
+  package fix; it was not resolved by the initial deployment.
+
+## Pagination fix — 2026-09-08
+
+- Fixed in `gronxb/hot-updater#1285` on `next`; release PR #1286 published
+  console `1.0.0-rc.11` and CLI `1.0.0-rc.13`.
+- The template follows rc.11 through `hot-updater/console#11`.
+- Browser-history regression tests cover event, installation search, and
+  installation history pages, plus return navigation and Refresh.
+- Vercel was redeployed and verified with Modex data: page 2 keeps its 5 rows
+  and Previous button after reload; Previous returns to page 1 with 20 rows.
+- Cloudflare Workers and Ship/Docker passed the same reload and Previous
+  checks with Modex data. Anonymous sessions remained empty on all three hosts.
+- Modex `main` now uses CLI rc.13. Its local console passed the same checks.
