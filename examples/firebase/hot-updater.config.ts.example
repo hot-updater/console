@@ -1,0 +1,21 @@
+import { defineConsoleConfig } from "@hot-updater/console";
+import { firebaseDatabase, firebaseStorage } from "@hot-updater/firebase";
+import { applicationDefault, cert } from "firebase-admin/app";
+
+export default defineConsoleConfig(() => {
+  // Use a service identity or mounted credential file where available.
+  // Serverless hosts can supply the service-account JSON as a runtime secret.
+  const credential = process.env.FIREBASE_SERVICE_ACCOUNT_JSON
+    ? cert(JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_JSON))
+    : applicationDefault();
+  const projectId = process.env.FIREBASE_PROJECT_ID!;
+
+  return {
+    database: firebaseDatabase({ projectId, credential }),
+    storage: firebaseStorage({
+      projectId,
+      credential,
+      storageBucket: process.env.FIREBASE_STORAGE_BUCKET!,
+    }),
+  };
+});

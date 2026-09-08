@@ -1,0 +1,12 @@
+# Only send the console's build inputs to Docker.
+# Add explicit paths if your config imports additional local modules.
+**
+!package.json
+!pnpm-lock.yaml
+!pnpm-workspace.yaml
+# Tailwind must ignore generated files in both client and server builds.
+!.gitignore
+!tsconfig.json
+!vite.config.ts
+!hot-updater.config.ts
+!console.auth.ts

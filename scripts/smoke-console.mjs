@@ -1,7 +1,9 @@
 import assert from "node:assert/strict";
-import { readFile, readdir } from "node:fs/promises";
+import { cp, mkdtemp, readFile, readdir, rm } from "node:fs/promises";
 import { spawn } from "node:child_process";
 import { once } from "node:events";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 
 const runtime = process.argv[2];
 assert(["node", "cloudflare"].includes(runtime), "Choose node or cloudflare.");
@@ -29,6 +31,7 @@ const functions = Object.fromEntries(
 );
 
 let server;
+let standaloneDirectory;
 let origin = "http://localhost";
 if (runtime === "cloudflare") {
   const { createTestHarness } = await import("wrangler");
@@ -42,7 +45,10 @@ if (runtime === "cloudflare") {
     ],
   });
 } else {
-  const child = spawn(process.execPath, [new URL("index.mjs", serverDir).pathname], {
+  standaloneDirectory = await mkdtemp(join(tmpdir(), "console-smoke-"));
+  await cp(new URL("../", serverDir), standaloneDirectory, { recursive: true });
+  const child = spawn(process.execPath, [join(standaloneDirectory, "server/index.mjs")], {
+    cwd: standaloneDirectory,
     env: {
       ...process.env,
       ...secrets,
@@ -116,4 +122,5 @@ try {
   console.log(`${runtime} runtime: sign-in, session, protected read/write, and download passed.`);
 } finally {
   await server.close();
+  if (standaloneDirectory) await rm(standaloneDirectory, { recursive: true, force: true });
 }

@@ -1,0 +1,18 @@
+import { defineConsoleConfig } from "@hot-updater/console";
+import { d1Database, r2Storage } from "@hot-updater/cloudflare";
+
+export default defineConsoleConfig(() => ({
+  database: d1Database({
+    accountId: process.env.HOT_UPDATER_CLOUDFLARE_ACCOUNT_ID!,
+    databaseId: process.env.HOT_UPDATER_CLOUDFLARE_D1_DATABASE_ID!,
+    cloudflareApiToken: process.env.HOT_UPDATER_CLOUDFLARE_API_TOKEN!,
+  }),
+  storage: r2Storage({
+    accountId: process.env.HOT_UPDATER_CLOUDFLARE_ACCOUNT_ID!,
+    bucketName: process.env.HOT_UPDATER_CLOUDFLARE_R2_BUCKET_NAME!,
+    credentials: {
+      accessKeyId: process.env.HOT_UPDATER_CLOUDFLARE_R2_ACCESS_KEY_ID!,
+      secretAccessKey: process.env.HOT_UPDATER_CLOUDFLARE_R2_SECRET_ACCESS_KEY!,
+    },
+  }),
+}));

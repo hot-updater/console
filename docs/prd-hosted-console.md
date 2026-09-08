@@ -1,13 +1,13 @@
 # Hosted Console: Nitro deployment and Modex dogfood
 
-Status: implementation in progress
+Status: implementation and Modex dogfood QA complete; follow-up documentation PRs remain open for review.
 
 ## Problem
 
 `hot-updater console` serves the management UI from a developer's computer.
 Teams need a persistent HTTPS console that remains available when that computer
-is offline. The standalone repository currently pins a temporary preview build,
-and its deployment instructions need a reproducible path from clone to a hosted app.
+is offline. At kickoff, the standalone repository pinned a temporary preview build
+and lacked a reproducible path from clone to a hosted app.
 
 ## Outcome
 
@@ -74,20 +74,22 @@ private signing keys stay in the mobile repository.
 1. Validate the RC template and close build/runtime gaps.
 2. Publish clone-to-deploy instructions and automated regression coverage for
    any discovered behavior defects.
-3. Merge the verified template and deployment guide so a clone of the default
-   branch includes the RC host and runtime fix.
+3. Merge the verified RC host and runtime fixes. Keep the follow-up documentation
+   PRs open for review, with Basics, Cloudflare, Vercel, and Netlify child guides.
 4. Configure OAuth, bind existing Modex resources, deploy the Worker, and record
-   authenticated remote QA. This remains required to complete the project.
+   authenticated remote QA.
 
 ## Findings and decisions
 
 - Target RCs at kickoff: console `1.0.0-rc.7`, Cloudflare `1.0.0-rc.5`.
+- Final dogfood versions: console `1.0.0-rc.9`, local CLI `1.0.0-rc.11`,
+  Cloudflare `1.0.0-rc.5`; template main commit `27d54b7`.
 - Existing template authentication requires a complete Google or GitHub OAuth
   pair. Modex's local CLI credentials do not provide those credentials.
 - The existing Cloudflare account is accessible through Wrangler. Cloudflare
   Access is not enabled; the template's existing OAuth adapter is the baseline.
-- The checked-in README's `authorityId` example is stale for the published RC
-  and must be removed rather than copied into the deployed configuration.
+- Removed the README's stale `authorityId` example from the published RC
+  configuration.
 - A successful Cloudflare build and dry run left CommonJS React references
   unresolved in the Worker. Bundling React, React DOM, and the external-store
   shim during SSR fixes the first-request 500. The built Worker is now exercised
@@ -104,9 +106,25 @@ private signing keys stay in the mobile repository.
   protected write, and bundle download denial passed.
 - Documentation-site build, dead-link check, repository lint, and 2,680 tests:
   passed before the final operations-record update.
-- Modex deployment: prepared; the user has created the GitHub OAuth app.
-  Locating its private credential storage and authenticated remote QA are pending.
-  No remote success is claimed until authenticated dogfood QA completes.
+- The final sign-out fix also passes all 167 console tests, console typecheck,
+  and the repository's full integration CI.
+- Modex deployment uses the merged template, published console RC, existing
+  D1/R2 resources, and GitHub OAuth with privately stored credentials.
+- Approved GitHub login, matching Bundles/Insights/Distribution data, events
+  pagination (20 then 2 records), cursor reload, and authenticated artifact
+  download passed on the actual HTTPS origin. The artifact's 39 ZIP entries
+  passed CRC validation.
+- App usage and Distribution are both 430px high on the hosted desktop dashboard.
+  The hosted sign-in layout fits 390px; dashboard layouts with real and dense
+  data were checked locally at 320px and 390px without horizontal overflow.
+- Actual authenticated QA found that sign-out needs a JSON content type.
+  The follow-up console fix covers both sidebar and access-denied sign-out;
+  its focused regression tests fail before the fix and pass after it.
+  On the final RC, sign-out returns to the login page, clears the browser
+  session, and makes protected downloads return HTTP 401. Reload preserves
+  the signed-out state.
+- Dogfood URL: [Modex console](https://modex-hot-updater-console.gron1gh1.workers.dev).
+  Verified on 2026-09-08, Worker version `cc4dfd5a-e0b7-4a80-bd4f-d61dd8ee365b`.
 
 ## Hosting scope clarification
 
@@ -114,5 +132,43 @@ The deployable product is a Nitro console, not a Cloudflare console. The default
 config chooses no backend; Cloudflare resources and setup live in an optional
 example. The general guide follows Nitro's official deployment catalog. Node
 and Worker artifacts receive runtime checks; Vercel and Netlify receive build
-checks. Remote dogfood is performed on Modex/Cloudflare only and is not evidence
-that all Nitro providers have been deployed.
+checks. Modex has also been deployed on Docker/Node and Vercel with its existing
+D1/R2 backend. This does not imply that every host/backend combination has been
+deployed.
+
+## Backend examples and Vercel dogfood — 2026-09-08
+
+- Added AWS (DynamoDB/S3), Firebase (Firestore/Cloud Storage), Supabase,
+  and Cloudflare-on-Node configurations, environment examples, and setup steps.
+- Each Node configuration passed type checks, builds, and isolated-output
+  authentication smoke checks. The four configurations now run in CI.
+- Modex Vercel production URL: https://modex-hot-updater-console.vercel.app.
+  Console `1.0.0-rc.10`, Cloudflare plugin `1.0.0-rc.5`, Nitro `vercel`
+  preset, Node.js 24; deployment `dpl_8zonimELYbd4KfV1jhF6dTE2M2gV`.
+- Runtime secrets reuse the existing Modex D1/R2 backend and GitHub application;
+  this host has its own session secret and an exact OAuth callback.
+- Verified GitHub sign-in, 3 bundles, DAU 2, Active 2 / Rollback 0, and
+  distribution drill-down from app version 1.5.0 to its active bundle.
+- All 19 referenced CSS/JS files loaded. Anonymous sessions were empty and
+  protected reads, writes, and downloads returned 401.
+- The authenticated streamed download completed through the Vercel function:
+  9,376,048 bytes, 39 ZIP entries, all CRCs valid.
+- Event navigation showed 20 rows on page 1 and the remaining 5 on page 2.
+  Sign-out remained effective after a browser reload; the session was empty.
+- Existing console issue: reloading event page 2 preserves its rows but resets
+  the page number to 1 and disables Previous. The cursor is in the URL, while
+  the previous-page stack is kept only in React state. This needs a console
+  package fix; it was not resolved by the initial deployment.
+
+## Pagination fix — 2026-09-08
+
+- Fixed in `gronxb/hot-updater#1285` on `next`; release PR #1286 published
+  console `1.0.0-rc.11` and CLI `1.0.0-rc.13`.
+- The template follows rc.11 through `hot-updater/console#11`.
+- Browser-history regression tests cover event, installation search, and
+  installation history pages, plus return navigation and Refresh.
+- Vercel was redeployed and verified with Modex data: page 2 keeps its 5 rows
+  and Previous button after reload; Previous returns to page 1 with 20 rows.
+- Cloudflare Workers and Ship/Docker passed the same reload and Previous
+  checks with Modex data. Anonymous sessions remained empty on all three hosts.
+- Modex `main` now uses CLI rc.13. Its local console passed the same checks.

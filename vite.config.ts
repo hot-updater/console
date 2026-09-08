@@ -3,8 +3,8 @@ import { defineConfig } from "vite";
 
 export default defineConfig({
   plugins: [hotUpdaterConsole()],
-  // Worker modules cannot resolve the CommonJS React imports left by SSR.
+  // Keep SSR dependencies together for one React instance in standalone builds.
   ssr: {
-    noExternal: ["react", "react-dom", "use-sync-external-store"],
+    noExternal: true,
   },
 });

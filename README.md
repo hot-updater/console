@@ -11,20 +11,23 @@ Distribution, and events use your existing Hot Updater backend.
 
 ## Deploy
 
-Follow the [Console deployment guide](docs/console-deployment.md) to connect
+Follow the [Console deployment guide](docs/console-deployment/README.md) to connect
 backend plugins, configure OAuth, choose a Nitro preset, deploy, and verify.
+Use Node.js 22+ and npm 11+ for the commands below.
+Choose a host independently of your managed backend: see the
+[hosting compatibility table](docs/console-deployment/README.md#4-choose-a-host)
+and the [Docker deployment guide](docs/console-deployment/docker.md).
 
 ```bash
 git clone https://github.com/hot-updater/console.git my-app-console
 cd my-app-console
-corepack enable
-pnpm install --frozen-lockfile
+npm install
 # Configure hot-updater.config.ts and server runtime variables first.
-pnpm build:node
-pnpm start
+npm run build:node
+npm start
 ```
 
-For another host, set `NITRO_PRESET=<preset>` on `pnpm build` and follow its
+For another host, set `NITRO_PRESET=<preset>` on `npm run build` and follow its
 [Nitro deployment instructions](https://nitro.build/deploy). The console requires
 a server; a static-only deployment cannot handle authentication or management
 operations. Provider plugins must support the runtime you choose.
@@ -37,11 +40,19 @@ operations. Provider plugins must support the runtime you choose.
 | `hot-updater.config.ts`      | Connect your existing database and storage plugins                |
 | `console.auth.ts`            | Google/GitHub OAuth, encrypted sessions, verified-email allowlist |
 | `.env.example`               | Shared server authentication variables for local development      |
-| `examples/cloudflare/`       | Optional D1/R2 provider config and Wrangler deployment example    |
-| `docs/console-deployment.md` | Nitro deployment guide and Cloudflare worked example              |
+| `examples/`                  | AWS, Firebase, Supabase, and Cloudflare backend configurations    |
+| `Dockerfile` / `.dockerignore` | Standalone Node image and explicit build-context allowlist        |
+| `docs/console-deployment/README.md` | Shared setup and Cloudflare, Vercel, Netlify, and Docker guides    |
 | `docs/prd-hosted-console.md` | Scope, acceptance criteria, and Modex dogfood record              |
 
+Choose a [backend example](examples/README.md): AWS, Firebase, Supabase, or Cloudflare.
+
 ## Authentication
+
+GitHub and Google sign-in are included: fill in the authentication environment
+variables to enable either provider. For another authentication system,
+[customize the adapter and sign-in flow](docs/console-deployment/README.md#custom-authentication)
+in your clone.
 
 Only exact verified addresses in `HOT_UPDATER_CONSOLE_ALLOWED_EMAILS` can
 manage the backend. OAuth state and 24-hour sessions use encrypted cookies,
@@ -52,14 +63,14 @@ mobile signing private keys out of browser code and version control.
 ## Verification
 
 ```bash
-pnpm test
-pnpm test:type
-pnpm build:node
-pnpm test:node
+npm test
+npm run test:type
+npm run build:node
+npm run test:node
 ```
 
 CI also builds Vercel, Netlify, and Cloudflare outputs. Runtime smoke checks
 start the actual built Node server or Worker with test-only credentials and
 verify sign-in rendering plus denied anonymous reads, writes, and downloads.
-The [Cloudflare example](docs/console-deployment.md#cloudflare-example-d1-and-r2)
+The [Cloudflare example](docs/console-deployment/cloudflare.md)
 is used for Modex dogfood; the PRD records its remote verification status.
