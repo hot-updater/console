@@ -11,13 +11,18 @@
     "build": "NODE_ENV=production vite build",
     "build:node": "NODE_ENV=production NITRO_PRESET=node_server vite build",
     "build:cloudflare": "NODE_ENV=production NITRO_PRESET=cloudflare_module vite build",
+    "deploy:cloudflare": "pnpm build:cloudflare && wrangler deploy",
+    "preview:cloudflare": "wrangler dev --port 3000",
+    "cf:typegen": "wrangler types --strict-vars=false",
     "preview": "vite preview",
     "start": "node .output/server/index.mjs",
     "test": "vitest run",
-    "test:type": "tsc --noEmit"
+    "test:cloudflare": "node scripts/smoke-cloudflare.mjs",
+    "test:type": "pnpm cf:typegen && tsc --noEmit"
   },
   "dependencies": {
-    "@hot-updater/console": "https://pkg.pr.new/gronxb/hot-updater/@hot-updater/console@146654edf1a1da3087f68263ed8a094bfff3c688",
+    "@hot-updater/cloudflare": "1.0.0-rc.5",
+    "@hot-updater/console": "1.0.0-rc.7",
     "better-auth": "^1.6.23",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
@@ -28,6 +33,7 @@
     "@types/react-dom": "^19.2.0",
     "typescript": "^6.0.2",
     "vite": "8.0.8",
-    "vitest": "4.1.4"
+    "vitest": "4.1.4",
+    "wrangler": "4.129.0"
   }
 }

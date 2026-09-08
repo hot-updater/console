@@ -1,0 +1,11 @@
+# Used by pnpm preview:cloudflare. For deployment, upload through Wrangler.
+BETTER_AUTH_URL=http://localhost:3000
+BETTER_AUTH_SECRET=
+HOT_UPDATER_CONSOLE_ALLOWED_EMAILS=owner@example.com
+STORAGE_DOWNLOAD_URL_SIGNING_KEY=
+
+# Configure one complete pair. Use a separate OAuth app for local development.
+GITHUB_CLIENT_ID=
+GITHUB_CLIENT_SECRET=
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=

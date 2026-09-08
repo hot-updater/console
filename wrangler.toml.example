@@ -1,8 +1,0 @@
-name = "hot-updater-console"
-compatibility_date = "2026-07-08"
-compatibility_flags = ["nodejs_compat"]
-main = ".output/server/index.mjs"
-
-[assets]
-binding = "ASSETS"
-directory = ".output/public"

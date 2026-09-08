@@ -40,3 +40,7 @@ jobs:
           cache-dependency-path: pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
       - run: NODE_ENV=production NITRO_PRESET=${{ matrix.preset }} pnpm exec vite build
+      - if: matrix.preset == 'cloudflare_module'
+        run: pnpm exec wrangler deploy --dry-run
+      - if: matrix.preset == 'cloudflare_module'
+        run: pnpm test:cloudflare

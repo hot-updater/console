@@ -7,6 +7,11 @@ dist-ssr
 .env.*
 !.env.example
 .dev.vars
+.dev.vars.*
+!.dev.vars.example
+worker-configuration.d.ts
+.secrets.*.json
+wrangler.modex.jsonc
 .hot-updater
 .nitro
 .tanstack
