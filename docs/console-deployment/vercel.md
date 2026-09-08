@@ -4,11 +4,17 @@ Complete [Basics](README.md) with Node-compatible plugins first.
 
 ## 1. Import your repository
 
-Create a Vercel project from your private console repository. Use the console checkout as its root directory and keep the detected package manager.
+Import your private console repository, or link your local checkout:
+
+```bash
+npx vercel link
+```
+
+Use the console checkout as the root directory and keep the detected package manager.
 
 ## 2. Set the build
 
-Set this as the build command:
+Select **Other** as the framework preset and Node.js 22 or later. Set this as the build command:
 
 ```bash
 npm run build
@@ -24,7 +30,13 @@ Set `BETTER_AUTH_URL` to that domain's HTTPS origin and register the matching OA
 
 ## 4. Deploy and check
 
-Deploy the project, open its production URL, and follow [Verify the deployment](README.md#5-verify-the-deployment).
+Deploy from the dashboard or your linked checkout:
+
+```bash
+npx vercel deploy --prod
+```
+
+Open the production URL and follow [Verify the deployment](README.md#5-verify-the-deployment).
 
 Test a real-sized bundle download: the console proxies it through the function, so [Vercel's payload and execution limits](https://vercel.com/docs/functions/limitations) apply.
 

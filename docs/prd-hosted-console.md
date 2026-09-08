@@ -132,5 +132,30 @@ The deployable product is a Nitro console, not a Cloudflare console. The default
 config chooses no backend; Cloudflare resources and setup live in an optional
 example. The general guide follows Nitro's official deployment catalog. Node
 and Worker artifacts receive runtime checks; Vercel and Netlify receive build
-checks. Remote dogfood is performed on Modex/Cloudflare only and is not evidence
-that all Nitro providers have been deployed.
+checks. Modex has also been deployed on Docker/Node and Vercel with its existing
+D1/R2 backend. This does not imply that every host/backend combination has been
+deployed.
+
+## Backend examples and Vercel dogfood — 2026-09-08
+
+- Added AWS (DynamoDB/S3), Firebase (Firestore/Cloud Storage), Supabase,
+  and Cloudflare-on-Node configurations, environment examples, and setup steps.
+- Each Node configuration passed type checks, builds, and isolated-output
+  authentication smoke checks. The four configurations now run in CI.
+- Modex Vercel production URL: https://modex-hot-updater-console.vercel.app.
+  Console `1.0.0-rc.10`, Cloudflare plugin `1.0.0-rc.5`, Nitro `vercel`
+  preset, Node.js 24; deployment `dpl_8zonimELYbd4KfV1jhF6dTE2M2gV`.
+- Runtime secrets reuse the existing Modex D1/R2 backend and GitHub application;
+  this host has its own session secret and an exact OAuth callback.
+- Verified GitHub sign-in, 3 bundles, DAU 2, Active 2 / Rollback 0, and
+  distribution drill-down from app version 1.5.0 to its active bundle.
+- All 19 referenced CSS/JS files loaded. Anonymous sessions were empty and
+  protected reads, writes, and downloads returned 401.
+- The authenticated streamed download completed through the Vercel function:
+  9,376,048 bytes, 39 ZIP entries, all CRCs valid.
+- Event navigation showed 20 rows on page 1 and the remaining 5 on page 2.
+  Sign-out remained effective after a browser reload; the session was empty.
+- Existing console issue: reloading event page 2 preserves its rows but resets
+  the page number to 1 and disables Previous. The cursor is in the URL, while
+  the previous-page stack is kept only in React state. This needs a console
+  package fix; it is not resolved by this deployment.
