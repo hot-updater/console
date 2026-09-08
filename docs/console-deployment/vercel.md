@@ -6,6 +6,11 @@ plugins. Native Cloudflare D1/R2 bindings are not available in this runtime.
 
 ## 1. Configure the backend and authentication
 
+All four managed backends can use this Node runtime. For a Cloudflare backend,
+use the [D1 API and R2 S3 configuration](README.md#cloudflare-backend-from-node)
+instead of Worker bindings. See the [compatibility table](README.md#recommended-hosts-by-managed-provider)
+for the other providers.
+
 Use Node-compatible database and storage plugins in `hot-updater.config.ts`.
 The Supabase example in Basics is one option; retain whichever backend your
 application already uses. Install the selected plugins and commit the lockfile
@@ -61,8 +66,12 @@ downloads, and static assets remain available together.
 
 Run the [remote verification checklist](README.md#5-verify-the-deployed-console)
 on the production origin. Check function logs when authentication, backend
-queries, or downloads fail. Verify that backend network access and function
-limits are suitable for your database and bundle sizes.
+queries, or downloads fail. The console proxies bundle downloads through the
+server, so test with real artifact sizes against
+[Vercel's function payload and execution limits](https://vercel.com/docs/functions/limitations).
+Node plugin compatibility does not establish that every bundle fits those
+limits. Use a [Docker/Node host](docker.md) with suitable response limits if
+your downloads exceed the chosen function deployment's limits.
 
 Deploy updates through the same Git workflow. Use Vercel's deployment history
 to promote a previous console deployment if needed; this does not restore

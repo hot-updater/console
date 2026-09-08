@@ -13,6 +13,9 @@ Distribution, and events use your existing Hot Updater backend.
 
 Follow the [Console deployment guide](docs/console-deployment/README.md) to connect
 backend plugins, configure OAuth, choose a Nitro preset, deploy, and verify.
+Choose a host independently of your managed backend: see the
+[hosting compatibility table](docs/console-deployment/README.md#recommended-hosts-by-managed-provider)
+and the [Docker deployment guide](docs/console-deployment/docker.md).
 
 ```bash
 git clone https://github.com/hot-updater/console.git my-app-console
@@ -38,7 +41,8 @@ operations. Provider plugins must support the runtime you choose.
 | `console.auth.ts`            | Google/GitHub OAuth, encrypted sessions, verified-email allowlist |
 | `.env.example`               | Shared server authentication variables for local development      |
 | `examples/cloudflare/`       | Optional D1/R2 provider config and Wrangler deployment example    |
-| `docs/console-deployment/README.md` | Nitro deployment guide and Cloudflare worked example              |
+| `Dockerfile` / `.dockerignore` | Standalone Node image and explicit build-context allowlist        |
+| `docs/console-deployment/README.md` | Shared setup and Cloudflare, Vercel, Netlify, and Docker guides    |
 | `docs/prd-hosted-console.md` | Scope, acceptance criteria, and Modex dogfood record              |
 
 ## Authentication
