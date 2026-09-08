@@ -11,7 +11,7 @@ Distribution, and events use your existing Hot Updater backend.
 
 ## Deploy
 
-Follow the [Console deployment guide](docs/console-deployment.md) to connect
+Follow the [Console deployment guide](docs/console-deployment/README.md) to connect
 backend plugins, configure OAuth, choose a Nitro preset, deploy, and verify.
 
 ```bash
@@ -38,7 +38,7 @@ operations. Provider plugins must support the runtime you choose.
 | `console.auth.ts`            | Google/GitHub OAuth, encrypted sessions, verified-email allowlist |
 | `.env.example`               | Shared server authentication variables for local development      |
 | `examples/cloudflare/`       | Optional D1/R2 provider config and Wrangler deployment example    |
-| `docs/console-deployment.md` | Nitro deployment guide and Cloudflare worked example              |
+| `docs/console-deployment/README.md` | Nitro deployment guide and Cloudflare worked example              |
 | `docs/prd-hosted-console.md` | Scope, acceptance criteria, and Modex dogfood record              |
 
 ## Authentication
@@ -61,5 +61,5 @@ pnpm test:node
 CI also builds Vercel, Netlify, and Cloudflare outputs. Runtime smoke checks
 start the actual built Node server or Worker with test-only credentials and
 verify sign-in rendering plus denied anonymous reads, writes, and downloads.
-The [Cloudflare example](docs/console-deployment.md#cloudflare-example-d1-and-r2)
+The [Cloudflare example](docs/console-deployment/cloudflare.md)
 is used for Modex dogfood; the PRD records its remote verification status.
