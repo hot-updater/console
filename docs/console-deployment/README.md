@@ -2,7 +2,7 @@
 
 Host the console with [Nitro](https://nitro.build/deploy) and connect it to your existing Hot Updater backend.
 
-You need Node.js 22+, backend credentials, and a GitHub or Google OAuth application.
+You need Node.js 22+ (npm 11+ if using npm), backend credentials, and a GitHub or Google OAuth application.
 
 ## 1. Clone the console
 

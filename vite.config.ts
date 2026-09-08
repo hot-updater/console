@@ -3,10 +3,8 @@ import { defineConfig } from "vite";
 
 export default defineConfig({
   plugins: [hotUpdaterConsole()],
-  // Bundle Worker dependencies together to keep a single React SSR instance.
+  // Keep SSR dependencies together for one React instance in standalone builds.
   ssr: {
-    noExternal: process.env.NITRO_PRESET?.startsWith("cloudflare")
-      ? true
-      : undefined,
+    noExternal: true,
   },
 });

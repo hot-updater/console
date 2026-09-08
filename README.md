@@ -13,6 +13,7 @@ Distribution, and events use your existing Hot Updater backend.
 
 Follow the [Console deployment guide](docs/console-deployment/README.md) to connect
 backend plugins, configure OAuth, choose a Nitro preset, deploy, and verify.
+Use Node.js 22+ and npm 11+ for the commands below.
 Choose a host independently of your managed backend: see the
 [hosting compatibility table](docs/console-deployment/README.md#4-choose-a-host)
 and the [Docker deployment guide](docs/console-deployment/docker.md).
