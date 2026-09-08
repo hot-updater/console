@@ -1,85 +1,40 @@
 # Vercel
 
-Complete the [basic setup](README.md) first. The console runs as a Nitro server
-on Vercel and connects to your existing Hot Updater backend through compatible
-plugins. Native Cloudflare D1/R2 bindings are not available in this runtime.
+Complete [Basics](README.md) with Node-compatible plugins first.
 
-## 1. Configure the backend and authentication
+## 1. Import your repository
 
-All four managed backends can use this Node runtime. For a Cloudflare backend,
-use the [D1 API and R2 S3 configuration](README.md#cloudflare-backend-from-node)
-instead of Worker bindings. See the [compatibility table](README.md#recommended-hosts-by-managed-provider)
-for the other providers.
+Create a Vercel project from your private console repository. Use the console checkout as its root directory and keep the detected package manager.
 
-Use Node-compatible database and storage plugins in `hot-updater.config.ts`.
-The Supabase example in Basics is one option; retain whichever backend your
-application already uses. Install the selected plugins and commit the lockfile
-in your private deployment repository.
+## 2. Set the build
 
-Choose the production console domain and set the matching callback in your
-GitHub or Google OAuth application. Use the same origin for `BETTER_AUTH_URL`.
-The console's OAuth configuration and backend credentials are server secrets.
-
-## 2. Import the repository
-
-In Vercel, create a project from your configured repository. Use the console
-checkout as the project root, and set:
-
-| Setting | Value |
-| --- | --- |
-| Install command | `pnpm install --frozen-lockfile` |
-| Build command | `NITRO_PRESET=vercel pnpm build` |
-| Build output | Nitro's generated `.vercel/output` |
-
-Keep Vercel's Nitro integration and generated Build Output API configuration.
-Do not select a static Vite deployment or replace the server output with `dist`.
-Nitro can detect Vercel's build environment; the explicit preset makes the
-intended target reproducible locally and in CI.
-
-In the project's environment-variable settings, configure the shared
-`BETTER_AUTH_URL`, `BETTER_AUTH_SECRET`,
-`HOT_UPDATER_CONSOLE_ALLOWED_EMAILS`, one complete OAuth provider pair, and the
-backend plugin variables from Basics. Make them available to the production
-server functions. Do not expose them through a `VITE_` prefix.
-
-For preview deployments, use a separate permitted origin and OAuth application
-or keep authentication restricted to the canonical production deployment.
-An arbitrary preview URL does not automatically become an allowed OAuth
-callback or trusted console origin.
-
-## 3. Build and deploy
-
-You can check the output before pushing:
+Set this as the build command:
 
 ```bash
-pnpm test
-pnpm test:type
-NITRO_PRESET=vercel pnpm build
+npm run build
 ```
 
-This generates `.vercel/output/config.json`, functions, and static assets.
-Push the configured repository and deploy through Vercel's Git integration.
-Deploy the complete Nitro output so OAuth callbacks, server functions, bundle
-downloads, and static assets remain available together.
+Add `NITRO_PRESET=vercel` as a build environment variable. Nitro generates `.vercel/output`; keep the generated server functions and static assets together.
 
-## 4. Verify and update
+## 3. Set runtime variables
 
-Run the [remote verification checklist](README.md#5-verify-the-deployed-console)
-on the production origin. Check function logs when authentication, backend
-queries, or downloads fail. The console proxies bundle downloads through the
-server, so test with real artifact sizes against
-[Vercel's function payload and execution limits](https://vercel.com/docs/functions/limitations).
-Node plugin compatibility does not establish that every bundle fits those
-limits. Use a [Docker/Node host](docker.md) with suitable response limits if
-your downloads exceed the chosen function deployment's limits.
+Choose the production domain. Add the [authentication variables](README.md#3-set-up-sign-in) and your backend credentials to the project's Production environment.
 
-Deploy updates through the same Git workflow. Use Vercel's deployment history
-to promote a previous console deployment if needed; this does not restore
-backend data or undo management actions. The template CI builds this preset;
-Modex remote dogfood is on Cloudflare, so it is not a Vercel verification record.
+Set `BETTER_AUTH_URL` to that domain's HTTPS origin and register the matching OAuth callback. Use server variables, without a `VITE_` prefix.
 
-See [Vercel's environment-variable reference](https://vercel.com/docs/environment-variables)
-for deployment scopes and server access.
+## 4. Deploy and check
 
-See [Nitro's official Vercel deployment guide](https://nitro.build/deploy/providers/vercel)
-for current platform integration and runtime configuration.
+Deploy the project, open its production URL, and follow [Verify the deployment](README.md#5-verify-the-deployment).
+
+Test a real-sized bundle download: the console proxies it through the function, so [Vercel's payload and execution limits](https://vercel.com/docs/functions/limitations) apply.
+
+<details>
+<summary>Preview deployments and updates</summary>
+
+Preview URLs need matching OAuth callbacks and `BETTER_AUTH_URL`. Otherwise, use sign-in only on the production origin.
+
+Push updates through the same Git workflow. To restore console code, promote a previous Vercel deployment; backend data is unaffected by that rollback.
+
+</details>
+
+See [Nitro on Vercel](https://nitro.build/deploy/providers/vercel) and [Vercel environment variables](https://vercel.com/docs/environment-variables).

@@ -14,20 +14,19 @@ Distribution, and events use your existing Hot Updater backend.
 Follow the [Console deployment guide](docs/console-deployment/README.md) to connect
 backend plugins, configure OAuth, choose a Nitro preset, deploy, and verify.
 Choose a host independently of your managed backend: see the
-[hosting compatibility table](docs/console-deployment/README.md#recommended-hosts-by-managed-provider)
+[hosting compatibility table](docs/console-deployment/README.md#4-choose-a-host)
 and the [Docker deployment guide](docs/console-deployment/docker.md).
 
 ```bash
 git clone https://github.com/hot-updater/console.git my-app-console
 cd my-app-console
-corepack enable
-pnpm install --frozen-lockfile
+npm install
 # Configure hot-updater.config.ts and server runtime variables first.
-pnpm build:node
-pnpm start
+npm run build:node
+npm start
 ```
 
-For another host, set `NITRO_PRESET=<preset>` on `pnpm build` and follow its
+For another host, set `NITRO_PRESET=<preset>` on `npm run build` and follow its
 [Nitro deployment instructions](https://nitro.build/deploy). The console requires
 a server; a static-only deployment cannot handle authentication or management
 operations. Provider plugins must support the runtime you choose.
@@ -47,6 +46,11 @@ operations. Provider plugins must support the runtime you choose.
 
 ## Authentication
 
+GitHub and Google sign-in are included: fill in the authentication environment
+variables to enable either provider. For another authentication system,
+[customize the adapter and sign-in flow](docs/console-deployment/README.md#custom-authentication)
+in your clone.
+
 Only exact verified addresses in `HOT_UPDATER_CONSOLE_ALLOWED_EMAILS` can
 manage the backend. OAuth state and 24-hour sessions use encrypted cookies,
 without a separate auth database. Every protected read, write, and download
@@ -56,10 +60,10 @@ mobile signing private keys out of browser code and version control.
 ## Verification
 
 ```bash
-pnpm test
-pnpm test:type
-pnpm build:node
-pnpm test:node
+npm test
+npm run test:type
+npm run build:node
+npm run test:node
 ```
 
 CI also builds Vercel, Netlify, and Cloudflare outputs. Runtime smoke checks
