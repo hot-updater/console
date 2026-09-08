@@ -27,7 +27,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        preset: [node_server, cloudflare_module]
+        preset: [node_server, vercel, netlify, cloudflare_module]
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -39,4 +39,16 @@ jobs:
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
+      - if: matrix.preset == 'cloudflare_module'
+        run: |
+          cp examples/cloudflare/hot-updater.config.ts.example hot-updater.config.ts
+          cp examples/cloudflare/wrangler.jsonc wrangler.jsonc
+          pnpm cf:typegen
+          pnpm test:type
       - run: NODE_ENV=production NITRO_PRESET=${{ matrix.preset }} pnpm exec vite build
+      - if: matrix.preset == 'cloudflare_module'
+        run: pnpm exec wrangler deploy --dry-run
+      - if: matrix.preset == 'cloudflare_module'
+        run: pnpm test:cloudflare
+      - if: matrix.preset == 'node_server'
+        run: pnpm test:node

@@ -1,11 +1,9 @@
 import { defineConsoleConfig } from "@hot-updater/console";
 
-const missingPlugin = (name: string): never => {
-  throw new Error(
-    `Configure the Hot Updater ${name} plugin before running the console.`,
-  );
-};
-
+// Connect the existing backend with plugins compatible with your Nitro runtime.
+// See docs/console-deployment.md and examples/cloudflare/.
 export default defineConsoleConfig(() => {
-  return missingPlugin("database and storage");
+  throw new Error(
+    "Configure the Hot Updater database and storage plugins before running the console.",
+  );
 });

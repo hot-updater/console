@@ -1,0 +1,41 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "hot-updater-console",
+  "main": ".output/server/index.mjs",
+  "compatibility_date": "2026-09-08",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "preview_urls": false,
+  "assets": {
+    "binding": "ASSETS",
+    "directory": ".output/public"
+  },
+  "observability": {
+    "enabled": true,
+    "traces": { "enabled": true, "head_sampling_rate": 0.1 }
+  },
+  "vars": {
+    "BETTER_AUTH_URL": "https://hot-updater-console.YOUR-SUBDOMAIN.workers.dev",
+    "BUCKET_NAME": "your-existing-bundle-bucket"
+  },
+  "secrets": {
+    "required": [
+      "BETTER_AUTH_SECRET",
+      "HOT_UPDATER_CONSOLE_ALLOWED_EMAILS",
+      "STORAGE_DOWNLOAD_URL_SIGNING_KEY",
+      "GITHUB_CLIENT_ID",
+      "GITHUB_CLIENT_SECRET"
+    ]
+  },
+  // Bind the resources already used by your OTA server. Do not create new ones.
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "your-existing-database",
+      "database_id": "00000000-0000-0000-0000-000000000000"
+    }
+  ],
+  "r2_buckets": [
+    { "binding": "BUCKET", "bucket_name": "your-existing-bundle-bucket" }
+  ]
+}
