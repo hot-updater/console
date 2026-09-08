@@ -17,7 +17,7 @@ If `.env` already exists, merge the example values into it instead of replacing 
 
 ## 2. Configure
 
-Fill in the backend values in `.env` and the shared [sign-in settings](../../docs/console-deployment/README.md#3-set-up-sign-in). On a hosted deployment, add the same variables to the host's runtime settings.
+Fill in the backend values in `.env` and the shared [sign-in settings](https://github.com/gronxb/hot-updater/blob/next/docs/content/docs/%28latest%29/guides/console-deployment/index.mdx#set-up-sign-in). On a hosted deployment, add the same variables to the host's runtime settings.
 
 Use a Cloudflare API token for D1 and separate R2 S3 credentials for storage. Native Worker bindings are not used by this example. For a Worker deployment, use [the bindings example](../cloudflare/) instead.
 
@@ -30,4 +30,4 @@ npm run test:type
 npm run dev
 ```
 
-Choose a [deployment host](../../docs/console-deployment/README.md#4-choose-a-host), then verify sign-in, your data, and a real bundle download.
+Choose a [deployment host](https://github.com/gronxb/hot-updater/blob/next/docs/content/docs/%28latest%29/guides/console-deployment/index.mdx#choose-a-host), then verify sign-in, your data, and a real bundle download.
