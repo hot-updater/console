@@ -21,3 +21,8 @@ wrangler.modex.jsonc
 coverage
 wrangler.toml
 src/routeTree.gen.ts
+
+# Host-specific files copied from examples.
+/wrangler.jsonc
+/.vercel
+/.netlify
