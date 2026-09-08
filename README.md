@@ -40,10 +40,12 @@ operations. Provider plugins must support the runtime you choose.
 | `hot-updater.config.ts`      | Connect your existing database and storage plugins                |
 | `console.auth.ts`            | Google/GitHub OAuth, encrypted sessions, verified-email allowlist |
 | `.env.example`               | Shared server authentication variables for local development      |
-| `examples/cloudflare/`       | Optional D1/R2 provider config and Wrangler deployment example    |
+| `examples/`                  | AWS, Firebase, Supabase, and Cloudflare backend configurations    |
 | `Dockerfile` / `.dockerignore` | Standalone Node image and explicit build-context allowlist        |
 | `docs/console-deployment/README.md` | Shared setup and Cloudflare, Vercel, Netlify, and Docker guides    |
 | `docs/prd-hosted-console.md` | Scope, acceptance criteria, and Modex dogfood record              |
+
+Choose a [backend example](examples/README.md): AWS, Firebase, Supabase, or Cloudflare.
 
 ## Authentication
 

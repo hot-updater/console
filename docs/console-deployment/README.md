@@ -21,7 +21,7 @@ Keep your deployment configuration in a private repository and commit its lockfi
 
 ## 2. Add your plugins
 
-Replace `hot-updater.config.ts` with your database and storage plugins:
+Start with an [AWS, Firebase, Supabase, or Cloudflare example](../../examples/README.md), or configure your own database and storage plugins:
 
 ```ts
 import { defineConsoleConfig } from "@hot-updater/console";

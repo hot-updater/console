@@ -1,0 +1,17 @@
+import { defineConsoleConfig } from "@hot-updater/console";
+import { supabaseDatabase, supabaseStorage } from "@hot-updater/supabase";
+
+export default defineConsoleConfig(() => {
+  const config = {
+    supabaseUrl: process.env.SUPABASE_URL!,
+    supabaseServiceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY!,
+  };
+
+  return {
+    database: supabaseDatabase(config),
+    storage: supabaseStorage({
+      ...config,
+      bucketName: process.env.SUPABASE_BUCKET_NAME!,
+    }),
+  };
+});

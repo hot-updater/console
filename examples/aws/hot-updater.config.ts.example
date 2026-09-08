@@ -1,0 +1,14 @@
+import { dynamoDB, s3Storage } from "@hot-updater/aws";
+import { defineConsoleConfig } from "@hot-updater/console";
+
+export default defineConsoleConfig(() => ({
+  database: dynamoDB({
+    region: process.env.AWS_REGION!,
+    tableName: process.env.AWS_DYNAMODB_TABLE_NAME!,
+    cloudfrontDistributionId: process.env.AWS_CLOUDFRONT_DISTRIBUTION_ID,
+  }),
+  storage: s3Storage({
+    region: process.env.AWS_REGION!,
+    bucketName: process.env.AWS_S3_BUCKET_NAME!,
+  }),
+}));

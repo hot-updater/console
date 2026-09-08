@@ -72,3 +72,30 @@ jobs:
           npm run test:type
       - run: npm run build:cloudflare
       - run: npm run test:cloudflare
+
+  backend-examples:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - example: aws
+            packages: '@hot-updater/aws@1.0.0-rc.4'
+          - example: firebase
+            packages: '@hot-updater/firebase@1.0.0-rc.4 firebase-admin@14.3.0 firebase-functions@7.3.2'
+          - example: supabase
+            packages: '@hot-updater/supabase@1.0.0-rc.4'
+          - example: cloudflare-node
+            packages: '@hot-updater/cloudflare@1.0.0-rc.5'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --global npm@11
+      - run: npm install
+      - run: npm install --no-save --package-lock=false ${{ matrix.packages }}
+      - run: cp examples/${{ matrix.example }}/hot-updater.config.ts.example hot-updater.config.ts
+      - run: npm run test:type
+      - run: npm run build:node
+      - run: npm run test:node
