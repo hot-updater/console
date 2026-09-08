@@ -3,8 +3,10 @@ import { defineConfig } from "vite";
 
 export default defineConfig({
   plugins: [hotUpdaterConsole()],
-  // Worker modules cannot resolve the CommonJS React imports left by SSR.
+  // Bundle Worker dependencies together to keep a single React SSR instance.
   ssr: {
-    noExternal: ["react", "react-dom", "use-sync-external-store"],
+    noExternal: process.env.NITRO_PRESET?.startsWith("cloudflare")
+      ? true
+      : undefined,
   },
 });

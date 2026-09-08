@@ -52,3 +52,22 @@ jobs:
         run: pnpm test:cloudflare
       - if: matrix.preset == 'node_server'
         run: pnpm test:node
+
+  npm-runtime:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install
+      - run: npm run test:type
+      - run: npm run build:node
+      - run: npm run test:node
+      - run: |
+          cp examples/cloudflare/hot-updater.config.ts.example hot-updater.config.ts
+          cp examples/cloudflare/wrangler.jsonc wrangler.jsonc
+          npm run cf:typegen
+          npm run test:type
+      - run: npm run build:cloudflare
+      - run: npm run test:cloudflare
