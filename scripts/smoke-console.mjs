@@ -11,6 +11,8 @@ const secrets = {
   STORAGE_DOWNLOAD_URL_SIGNING_KEY: "local-smoke-test-storage-key-at-least-32-characters",
   GITHUB_CLIENT_ID: "smoke-test-client",
   GITHUB_CLIENT_SECRET: "smoke-test-client-secret",
+  GOOGLE_CLIENT_ID: "smoke-test-google-client",
+  GOOGLE_CLIENT_SECRET: "smoke-test-google-client-secret",
 };
 
 const serverDir = new URL("../.output/server/", import.meta.url);
@@ -89,6 +91,7 @@ try {
   const html = await page.text();
   assert.match(html, /Sign in to manage OTA bundles/);
   assert.match(html, /Continue with GitHub/);
+  assert.match(html, /Continue with Google/);
 
   const session = await server.fetch("http://localhost/api/auth/get-session");
   assert.equal(session.status, 200);
