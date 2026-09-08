@@ -10,7 +10,7 @@ Choose the backend you already use, then choose a compatible Nitro host.
 | [Cloudflare on Node](cloudflare-node/) | D1 API + R2 S3 credentials | Node, Docker, Vercel, Netlify |
 | [Cloudflare Workers](cloudflare/) | Native D1 + R2 bindings | Cloudflare Workers |
 
-Each Node example includes a config file, backend environment variables, and three setup steps. GitHub/Google sign-in and access rules are shared in [Basics](https://hot-updater.dev/docs/guides/console-deployment#set-up-sign-in).
+Each Node example includes a config file, backend environment variables, and three setup steps. GitHub/Google sign-in and access rules are shared in [Basics](https://github.com/gronxb/hot-updater/blob/next/docs/content/docs/%28latest%29/guides/console-deployment/index.mdx#set-up-sign-in).
 
 Use only the plugins for your backend. For the included Dockerfile, install them with the pnpm version in `package.json` and commit `pnpm-lock.yaml` before building.
 
