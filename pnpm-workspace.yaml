@@ -7,3 +7,5 @@ minimumReleaseAgeExclude:
   - '@hot-updater/plugin-core@1.0.0-rc.3'
   - '@hot-updater/server@1.0.0-rc.3'
   - '@hot-updater/console@1.0.0-rc.10'
+patchedDependencies:
+  '@hot-updater/console@1.0.0-rc.10': patches/@hot-updater__console@1.0.0-rc.10.patch
