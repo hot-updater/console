@@ -17,7 +17,7 @@ If `.env` already exists, merge the example values into it instead of replacing 
 
 ## 2. Configure
 
-Fill in the backend values in `.env` and the shared [sign-in settings](../../docs/console-deployment/README.md#3-set-up-sign-in). On a hosted deployment, add the same variables to the host's runtime settings.
+Fill in the backend values in `.env` and the shared [sign-in settings](https://hot-updater.dev/docs/guides/console-deployment#set-up-sign-in). On a hosted deployment, add the same variables to the host's runtime settings.
 
 Use the existing project URL, bucket name, and server-only service-role key. The anon key cannot manage the backend.
 
@@ -30,4 +30,4 @@ npm run test:type
 npm run dev
 ```
 
-Choose a [deployment host](../../docs/console-deployment/README.md#4-choose-a-host), then verify sign-in, your data, and a real bundle download.
+Choose a [deployment host](https://hot-updater.dev/docs/guides/console-deployment#choose-a-host), then verify sign-in, your data, and a real bundle download.

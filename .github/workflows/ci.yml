@@ -80,13 +80,13 @@ jobs:
       matrix:
         include:
           - example: aws
-            packages: '@hot-updater/aws@1.0.0-rc.4'
+            packages: '@hot-updater/aws@rc'
           - example: firebase
-            packages: '@hot-updater/firebase@1.0.0-rc.4 firebase-admin@14.3.0 firebase-functions@7.3.2'
+            packages: '@hot-updater/firebase@rc firebase-admin firebase-functions'
           - example: supabase
-            packages: '@hot-updater/supabase@1.0.0-rc.4'
+            packages: '@hot-updater/supabase@rc'
           - example: cloudflare-node
-            packages: '@hot-updater/cloudflare@1.0.0-rc.5'
+            packages: '@hot-updater/cloudflare@rc'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
