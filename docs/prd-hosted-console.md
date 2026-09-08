@@ -70,8 +70,10 @@ private signing keys stay in the mobile repository.
 1. Validate the RC template and close build/runtime gaps.
 2. Publish clone-to-deploy instructions and automated regression coverage for
    any discovered behavior defects.
-3. Configure OAuth, bind existing Modex resources, and deploy the Worker.
-4. Run remote QA and record evidence before merging the repository changes.
+3. Merge the verified template and deployment guide so a clone of the default
+   branch includes the RC host and runtime fix.
+4. Configure OAuth, bind existing Modex resources, deploy the Worker, and record
+   authenticated remote QA. This remains required to complete the project.
 
 ## Findings and decisions
 
