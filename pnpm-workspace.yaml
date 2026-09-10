@@ -2,10 +2,12 @@ allowBuilds:
   esbuild: true
   workerd: true
 minimumReleaseAgeExclude:
-  - '@hot-updater/cli-tools@1.0.0-rc.3'
-  - '@hot-updater/cloudflare@1.0.0-rc.5'
-  - '@hot-updater/plugin-core@1.0.0-rc.3'
-  - '@hot-updater/server@1.0.0-rc.3'
-  - '@hot-updater/console@1.0.0-rc.11'
+  - '@hot-updater/bsdiff@1.0.0-rc.14'
+  - '@hot-updater/cli-tools@1.0.0-rc.14'
+  - '@hot-updater/cloudflare@1.0.0-rc.14'
+  - '@hot-updater/console@1.0.0-rc.14'
+  - '@hot-updater/core@1.0.0-rc.14'
+  - '@hot-updater/plugin-core@1.0.0-rc.14'
+  - '@hot-updater/server@1.0.0-rc.14'
 patchedDependencies:
-  '@hot-updater/console@1.0.0-rc.11': patches/@hot-updater__console@1.0.0-rc.11.patch
+  '@hot-updater/console@1.0.0-rc.14': patches/@hot-updater__console@1.0.0-rc.14.patch
