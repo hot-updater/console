@@ -3,11 +3,11 @@ allowBuilds:
   workerd: true
 minimumReleaseAgeExclude:
   - '@hot-updater/bsdiff@1.0.0-rc.14'
-  - '@hot-updater/cli-tools@1.0.0-rc.14'
-  - '@hot-updater/cloudflare@1.0.0-rc.14'
-  - '@hot-updater/console@1.0.0-rc.15'
-  - '@hot-updater/core@1.0.0-rc.14'
-  - '@hot-updater/plugin-core@1.0.0-rc.14'
-  - '@hot-updater/server@1.0.0-rc.14'
+  - '@hot-updater/cli-tools@1.0.0-rc.16'
+  - '@hot-updater/cloudflare@1.0.0-rc.17'
+  - '@hot-updater/console@1.0.0-rc.19'
+  - '@hot-updater/core@1.0.0-rc.15'
+  - '@hot-updater/plugin-core@1.0.0-rc.16'
+  - '@hot-updater/server@1.0.0-rc.17'
 patchedDependencies:
-  '@hot-updater/console@1.0.0-rc.15': patches/@hot-updater__console@1.0.0-rc.15.patch
+  '@hot-updater/console@1.0.0-rc.19': patches/@hot-updater__console@1.0.0-rc.19.patch

@@ -23,6 +23,8 @@ Use Application Default Credentials with a service identity or mounted private f
 
 Reuse your existing backend. If it uses a custom storage `basePath`, copy that setting into the storage plugin as well.
 
+The config also sets `plugins`, the server plugins the managed Firebase server runs: Insights and API keys. The console shows each feature only when its plugin is listed, so remove one your server does not run.
+
 ## 3. Run or deploy
 
 ```bash
