@@ -71,6 +71,6 @@ npm run build:node
 npm run test:node
 ```
 
-CI also builds Vercel, Netlify, and Cloudflare outputs. Runtime smoke checks
+CI also builds Vercel, Netlify, and Cloudflare outputs and the Docker image. Runtime smoke checks
 start the actual built Node server or Worker with test-only credentials and
 verify sign-in rendering plus denied anonymous reads, writes, and downloads.
