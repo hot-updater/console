@@ -1,4 +1,4 @@
-import { d1Database, r2Storage } from "@hot-updater/cloudflare/worker";
+import { d1Database, plugins, r2Storage } from "@hot-updater/cloudflare/worker";
 import { defineConsoleConfig } from "@hot-updater/console";
 
 type CloudflareRequest = Request & {
@@ -20,5 +20,7 @@ export default defineConsoleConfig((request) => {
       bucketName: env.BUCKET_NAME,
       downloadUrlSigningKey: env.STORAGE_DOWNLOAD_URL_SIGNING_KEY,
     }),
+    // The server plugins the managed Cloudflare Worker runs: Insights and API keys.
+    plugins,
   };
 });

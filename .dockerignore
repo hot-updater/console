@@ -4,6 +4,7 @@
 !package.json
 !pnpm-lock.yaml
 !pnpm-workspace.yaml
+!patches/**
 # Tailwind must ignore generated files in both client and server builds.
 !.gitignore
 !tsconfig.json

@@ -1,5 +1,5 @@
 import { defineConsoleConfig } from "@hot-updater/console";
-import { d1Database, r2Storage } from "@hot-updater/cloudflare";
+import { d1Database, plugins, r2Storage } from "@hot-updater/cloudflare";
 
 export default defineConsoleConfig(() => ({
   database: d1Database({
@@ -15,4 +15,6 @@ export default defineConsoleConfig(() => ({
       secretAccessKey: process.env.HOT_UPDATER_CLOUDFLARE_R2_SECRET_ACCESS_KEY!,
     },
   }),
+  // The server plugins the managed Cloudflare server runs: Insights and API keys.
+  plugins,
 }));

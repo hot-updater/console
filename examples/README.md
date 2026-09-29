@@ -12,6 +12,6 @@ Choose the backend you already use, then choose a compatible Nitro host.
 
 Each Node example includes a config file, backend environment variables, and three setup steps. GitHub/Google sign-in and access rules are shared in [Basics](https://github.com/gronxb/hot-updater/blob/next/docs/content/docs/%28latest%29/guides/console-deployment/index.mdx#set-up-sign-in).
 
-Use only the plugins for your backend. For the included Dockerfile, install them with the pnpm version in `package.json` and commit `pnpm-lock.yaml` before building.
+Each config also lists the server plugins its managed server runs (`plugins`: Insights and API keys); the console shows a feature only when its plugin is listed. Use only the plugins for your backend. For the included Dockerfile, install them with the pnpm version in `package.json` and commit `pnpm-lock.yaml` before building.
 
 CI copies each configuration into the template, checks its types, builds the console, and tests the sign-in and anonymous-access boundaries. These checks do not contact your backend; verify its credentials and permissions after deployment.

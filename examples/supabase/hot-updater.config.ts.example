@@ -1,5 +1,9 @@
 import { defineConsoleConfig } from "@hot-updater/console";
-import { supabaseDatabase, supabaseStorage } from "@hot-updater/supabase";
+import {
+  plugins,
+  supabaseDatabase,
+  supabaseStorage,
+} from "@hot-updater/supabase";
 
 export default defineConsoleConfig(() => {
   const config = {
@@ -13,5 +17,7 @@ export default defineConsoleConfig(() => {
       ...config,
       bucketName: process.env.SUPABASE_BUCKET_NAME!,
     }),
+    // The server plugins the managed Supabase server runs: Insights and API keys.
+    plugins,
   };
 });

@@ -23,6 +23,8 @@ Use a Cloudflare API token for D1 and separate R2 S3 credentials for storage. Na
 
 Reuse your existing backend. If it uses a custom storage `basePath`, copy that setting into the storage plugin as well.
 
+The config also sets `plugins`, the server plugins the managed Cloudflare server runs: Insights and API keys. The console shows each feature only when its plugin is listed, so remove one your server does not run.
+
 ## 3. Run or deploy
 
 ```bash

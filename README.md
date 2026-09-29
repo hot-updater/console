@@ -9,6 +9,10 @@ This repository hosts the published `@hot-updater/console` package.
 It does not fork the UI or require a running local CLI. Bundles, Insights,
 Distribution, and events use your existing Hot Updater backend.
 
+The console reads and writes the backend's database directly. Upgrade the
+backend's `@hot-updater/*` packages first, then move the console to the
+version published with them.
+
 ## Deploy
 
 Follow the [Console deployment guide](https://github.com/gronxb/hot-updater/blob/next/docs/content/docs/%28latest%29/guides/console-deployment/index.mdx) to connect
@@ -67,6 +71,6 @@ npm run build:node
 npm run test:node
 ```
 
-CI also builds Vercel, Netlify, and Cloudflare outputs. Runtime smoke checks
+CI also builds Vercel, Netlify, and Cloudflare outputs and the Docker image. Runtime smoke checks
 start the actual built Node server or Worker with test-only credentials and
 verify sign-in rendering plus denied anonymous reads, writes, and downloads.

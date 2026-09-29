@@ -53,6 +53,12 @@ jobs:
       - if: matrix.preset == 'node_server'
         run: pnpm test:node
 
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t hot-updater-console .
+
   npm-runtime:
     runs-on: ubuntu-latest
     steps:
