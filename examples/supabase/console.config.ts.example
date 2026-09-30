@@ -17,7 +17,7 @@ export default defineConsoleConfig(() => {
       ...config,
       bucketName: process.env.SUPABASE_BUCKET_NAME!,
     }),
-    // The server plugins the managed Supabase server runs: Insights and API keys.
+    // The plugins the managed Supabase server runs: Insights and API keys.
     plugins,
   };
 });

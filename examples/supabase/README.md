@@ -8,7 +8,7 @@ From the console repository root (Node.js 22+, npm 11+):
 
 ```bash
 npm install --save-exact @hot-updater/supabase@rc
-cp examples/supabase/hot-updater.config.ts.example hot-updater.config.ts
+cp examples/supabase/console.config.ts.example console.config.ts
 cp .env.example .env
 cat examples/supabase/.env.example >> .env
 ```
@@ -21,9 +21,9 @@ Fill in the backend values in `.env` and the shared [sign-in settings](https://g
 
 Use the existing project URL, bucket name, and server-only service-role key. The anon key cannot manage the backend.
 
-Reuse your existing backend. If it uses a custom storage `basePath`, copy that setting into the storage plugin as well.
+Reuse your existing backend. If it uses a custom storage `basePath`, copy that setting into the storage adapter as well.
 
-The config also sets `plugins`, the server plugins the managed Supabase server runs: Insights and API keys. The console shows each feature only when its plugin is listed, so remove one your server does not run.
+The config lists the database, storage, and plugins the managed Supabase server runs. `plugins` from `@hot-updater/supabase` is that server's set: Insights and API keys. The console shows each feature only when its plugin is listed.
 
 ## 3. Run or deploy
 

@@ -9,7 +9,7 @@ export default defineConsoleConfig((request) => {
   const env = (request as CloudflareRequest).runtime?.cloudflare?.env;
   if (!env) {
     throw new Error(
-      "Cloudflare bindings are unavailable. Use pnpm preview:cloudflare, or configure Node-compatible providers.",
+      "Cloudflare bindings are unavailable. Use pnpm preview:cloudflare, or adapters that run in Node.",
     );
   }
 
@@ -20,7 +20,7 @@ export default defineConsoleConfig((request) => {
       bucketName: env.BUCKET_NAME,
       downloadUrlSigningKey: env.STORAGE_DOWNLOAD_URL_SIGNING_KEY,
     }),
-    // The server plugins the managed Cloudflare Worker runs: Insights and API keys.
+    // The plugins the managed Cloudflare Worker runs: Insights and API keys.
     plugins,
   };
 });

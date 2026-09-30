@@ -21,7 +21,7 @@ export default defineConsoleConfig(() => {
       credential,
       storageBucket: process.env.FIREBASE_STORAGE_BUCKET!,
     }),
-    // The server plugins the managed Firebase server runs: Insights and API keys.
+    // The plugins the managed Firebase server runs: Insights and API keys.
     plugins,
   };
 });

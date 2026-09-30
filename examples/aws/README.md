@@ -8,7 +8,7 @@ From the console repository root (Node.js 22+, npm 11+):
 
 ```bash
 npm install --save-exact @hot-updater/aws@rc
-cp examples/aws/hot-updater.config.ts.example hot-updater.config.ts
+cp examples/aws/console.config.ts.example console.config.ts
 cp .env.example .env
 cat examples/aws/.env.example >> .env
 ```
@@ -21,9 +21,9 @@ Fill in the backend values in `.env` and the shared [sign-in settings](https://g
 
 The AWS SDK uses the standard credential chain: an attached IAM role, a local profile, or runtime `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` (and `AWS_SESSION_TOKEN` for temporary credentials). Give it access to the existing table and bucket. If the OTA backend uses CloudFront, set its distribution ID and allow invalidations.
 
-Reuse your existing backend. If it uses a custom storage `basePath`, copy that setting into the storage plugin as well.
+Reuse your existing backend. If it uses a custom storage `basePath`, copy that setting into the storage adapter as well.
 
-The config also sets `plugins`, the server plugins the managed AWS server runs: Insights and API keys. The console shows each feature only when its plugin is listed, so remove one your server does not run.
+The config lists the database, storage, and plugins the managed AWS server runs. `plugins` from `@hot-updater/aws` is that server's set: Insights and API keys. The console shows each feature only when its plugin is listed.
 
 ## 3. Run or deploy
 

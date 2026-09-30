@@ -41,7 +41,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - if: matrix.preset == 'cloudflare_module'
         run: |
-          cp examples/cloudflare/hot-updater.config.ts.example hot-updater.config.ts
+          cp examples/cloudflare/console.config.ts.example console.config.ts
           cp examples/cloudflare/wrangler.jsonc wrangler.jsonc
           pnpm cf:typegen
           pnpm test:type
@@ -72,7 +72,7 @@ jobs:
       - run: npm run build:node
       - run: npm run test:node
       - run: |
-          cp examples/cloudflare/hot-updater.config.ts.example hot-updater.config.ts
+          cp examples/cloudflare/console.config.ts.example console.config.ts
           cp examples/cloudflare/wrangler.jsonc wrangler.jsonc
           npm run cf:typegen
           npm run test:type
@@ -101,7 +101,7 @@ jobs:
       - run: npm install --global npm@11
       - run: npm install
       - run: npm install --no-save --package-lock=false ${{ matrix.packages }}
-      - run: cp examples/${{ matrix.example }}/hot-updater.config.ts.example hot-updater.config.ts
+      - run: cp examples/${{ matrix.example }}/console.config.ts.example console.config.ts
       - run: npm run test:type
       - run: npm run build:node
       - run: npm run test:node

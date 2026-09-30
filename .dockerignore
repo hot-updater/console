@@ -9,5 +9,5 @@
 !.gitignore
 !tsconfig.json
 !vite.config.ts
-!hot-updater.config.ts
+!console.config.ts
 !console.auth.ts

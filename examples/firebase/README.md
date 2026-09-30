@@ -8,7 +8,7 @@ From the console repository root (Node.js 22+, npm 11+):
 
 ```bash
 npm install --save-exact @hot-updater/firebase@rc firebase-admin firebase-functions
-cp examples/firebase/hot-updater.config.ts.example hot-updater.config.ts
+cp examples/firebase/console.config.ts.example console.config.ts
 cp .env.example .env
 cat examples/firebase/.env.example >> .env
 ```
@@ -21,9 +21,9 @@ Fill in the backend values in `.env` and the shared [sign-in settings](https://g
 
 Use Application Default Credentials with a service identity or mounted private file. On Vercel or Netlify, set `FIREBASE_SERVICE_ACCOUNT_JSON` to the service-account JSON in the private runtime environment store. The example supports both paths; do not commit the JSON. See [Firebase Admin setup](https://firebase.google.com/docs/admin/setup).
 
-Reuse your existing backend. If it uses a custom storage `basePath`, copy that setting into the storage plugin as well.
+Reuse your existing backend. If it uses a custom storage `basePath`, copy that setting into the storage adapter as well.
 
-The config also sets `plugins`, the server plugins the managed Firebase server runs: Insights and API keys. The console shows each feature only when its plugin is listed, so remove one your server does not run.
+The config lists the database, storage, and plugins the managed Firebase server runs. `plugins` from `@hot-updater/firebase` is that server's set: Insights and API keys. The console shows each feature only when its plugin is listed.
 
 ## 3. Run or deploy
 

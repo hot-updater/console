@@ -8,7 +8,7 @@ From the console repository root (Node.js 22+, npm 11+):
 
 ```bash
 npm install --save-exact @hot-updater/cloudflare@rc
-cp examples/cloudflare-node/hot-updater.config.ts.example hot-updater.config.ts
+cp examples/cloudflare-node/console.config.ts.example console.config.ts
 cp .env.example .env
 cat examples/cloudflare-node/.env.example >> .env
 ```
@@ -21,9 +21,9 @@ Fill in the backend values in `.env` and the shared [sign-in settings](https://g
 
 Use a Cloudflare API token for D1 and separate R2 S3 credentials for storage. Native Worker bindings are not used by this example. For a Worker deployment, use [the bindings example](../cloudflare/) instead.
 
-Reuse your existing backend. If it uses a custom storage `basePath`, copy that setting into the storage plugin as well.
+Reuse your existing backend. If it uses a custom storage `basePath`, copy that setting into the storage adapter as well.
 
-The config also sets `plugins`, the server plugins the managed Cloudflare server runs: Insights and API keys. The console shows each feature only when its plugin is listed, so remove one your server does not run.
+The config lists the database, storage, and plugins the managed Cloudflare server runs. `plugins` from `@hot-updater/cloudflare` is that server's set: Insights and API keys. The console shows each feature only when its plugin is listed.
 
 ## 3. Run or deploy
 
