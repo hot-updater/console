@@ -62,8 +62,33 @@ variables to enable either provider. For another authentication system,
 [customize the adapter and sign-in flow](https://github.com/gronxb/hot-updater/blob/next/docs/content/docs/%28latest%29/guides/console-deployment/index.mdx#custom-authentication)
 in your clone.
 
-Only exact verified addresses in `HOT_UPDATER_CONSOLE_ALLOWED_EMAILS` can
-manage the backend. OAuth state and 24-hour sessions use encrypted cookies,
+Verified emails can manage the backend when their full address matches
+`HOT_UPDATER_CONSOLE_ALLOWED_EMAILS` or their domain matches
+`HOT_UPDATER_CONSOLE_ALLOWED_EMAIL_DOMAINS`. Both comma-separated allowlists apply
+to Google and GitHub and ignore case and surrounding whitespace. Configure at
+least one allowed email or domain; leave the email list empty for domain-only access.
+
+For example, allow everyone at `company.com` and one external operator:
+
+```dotenv
+HOT_UPDATER_CONSOLE_ALLOWED_EMAILS=operator@example.com
+HOT_UPDATER_CONSOLE_ALLOWED_EMAIL_DOMAINS=company.com
+```
+
+Domain entries must omit `@` and wildcards. Subdomains are separate: allowing
+`company.com` does not allow `team.company.com` unless it is also listed. Removing
+an email or domain blocks existing sessions on the next console request unless
+another allowlist entry still permits the address.
+
+Google addresses must be verified Gmail accounts or have a matching Google
+Workspace `hd` claim, following [Google's verification guidance](https://developers.google.com/identity/gsi/web/guides/verify-google-id-token).
+Google accounts registered with third-party email addresses without a matching
+`hd` claim are denied, including individually allowlisted addresses. GitHub
+uses the verification status of the email returned by its provider. Email-domain
+access does not check GitHub organization membership. Existing sessions require
+one new sign-in when upgrading to this verification policy.
+
+OAuth state and 24-hour sessions use encrypted cookies,
 without a separate auth database. Every protected read, write, and download
 checks access before connecting to the backend. Keep server credentials and
 mobile signing private keys out of browser code and version control.

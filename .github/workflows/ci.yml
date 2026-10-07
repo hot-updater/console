@@ -43,6 +43,7 @@ jobs:
         run: |
           cp examples/cloudflare/console.config.ts.example console.config.ts
           cp examples/cloudflare/wrangler.jsonc wrangler.jsonc
+          cp examples/cloudflare/.dev.vars.example .dev.vars
           pnpm cf:typegen
           pnpm test:type
       - run: NODE_ENV=production NITRO_PRESET=${{ matrix.preset }} pnpm exec vite build
@@ -74,6 +75,7 @@ jobs:
       - run: |
           cp examples/cloudflare/console.config.ts.example console.config.ts
           cp examples/cloudflare/wrangler.jsonc wrangler.jsonc
+          cp examples/cloudflare/.dev.vars.example .dev.vars
           npm run cf:typegen
           npm run test:type
       - run: npm run build:cloudflare
@@ -86,13 +88,14 @@ jobs:
       matrix:
         include:
           - example: aws
-            packages: '@hot-updater/aws@rc'
+            package: '@hot-updater/aws'
           - example: firebase
-            packages: '@hot-updater/firebase@rc firebase-admin firebase-functions'
+            package: '@hot-updater/firebase'
+            extra-packages: 'firebase-admin firebase-functions'
           - example: supabase
-            packages: '@hot-updater/supabase@rc'
+            package: '@hot-updater/supabase'
           - example: cloudflare-node
-            packages: '@hot-updater/cloudflare@rc'
+            package: '@hot-updater/cloudflare'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -100,7 +103,10 @@ jobs:
           node-version: 22
       - run: npm install --global npm@11
       - run: npm install
-      - run: npm install --no-save --package-lock=false ${{ matrix.packages }}
+      - name: Install backend matching the console version
+        run: |
+          HOT_UPDATER_VERSION=$(node -p "require('./package.json').dependencies['@hot-updater/console']")
+          npm install --no-save --package-lock=false "${{ matrix.package }}@$HOT_UPDATER_VERSION" ${{ matrix.extra-packages }}
       - run: cp examples/${{ matrix.example }}/console.config.ts.example console.config.ts
       - run: npm run test:type
       - run: npm run build:node
