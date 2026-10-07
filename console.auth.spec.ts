@@ -48,11 +48,54 @@ describe("resolveConsoleAuthSettings", () => {
     expect(settings.baseURL).toBe("https://console.example.com");
   });
 
+  it.each(["google", "github"])(
+    "allows domain-only configuration for %s",
+    (provider) => {
+      const settings = resolveConsoleAuthSettings({
+        ...validEnv,
+        GOOGLE_CLIENT_ID: undefined,
+        GOOGLE_CLIENT_SECRET: undefined,
+        [`${provider.toUpperCase()}_CLIENT_ID`]: "client-id",
+        [`${provider.toUpperCase()}_CLIENT_SECRET`]: "client-secret",
+        HOT_UPDATER_CONSOLE_ALLOWED_EMAILS: undefined,
+        HOT_UPDATER_CONSOLE_ALLOWED_EMAIL_DOMAINS:
+          " Example.com,team.example.org,EXAMPLE.COM ",
+      });
+
+      expect(settings.providers).toEqual([provider]);
+      expect([...settings.allowedEmails]).toEqual([]);
+      expect([...settings.allowedEmailDomains]).toEqual([
+        "example.com",
+        "team.example.org",
+      ]);
+    },
+  );
+
+  it.each([
+    "@example.com",
+    "*@example.com",
+    "*.example.com",
+    "owner@example.com",
+    "https://example.com",
+    "example..com",
+    "-example.com",
+    "example.com.",
+    "example .com",
+  ])("rejects invalid allowed domains: %s", (domain) => {
+    expect(() =>
+      resolveConsoleAuthSettings({
+        ...validEnv,
+        HOT_UPDATER_CONSOLE_ALLOWED_EMAIL_DOMAINS: domain,
+      }),
+    ).toThrow("HOT_UPDATER_CONSOLE_ALLOWED_EMAIL_DOMAINS");
+  });
+
   it("fails closed for missing allowlists, partial providers, and no provider", () => {
     expect(() =>
       resolveConsoleAuthSettings({
         ...validEnv,
-        HOT_UPDATER_CONSOLE_ALLOWED_EMAILS: "",
+        HOT_UPDATER_CONSOLE_ALLOWED_EMAILS: " , ",
+        HOT_UPDATER_CONSOLE_ALLOWED_EMAIL_DOMAINS: " , ",
       }),
     ).toThrow("HOT_UPDATER_CONSOLE_ALLOWED_EMAILS");
 
@@ -191,6 +234,65 @@ describe("toConsoleAccess", () => {
           },
         },
         allowedEmails,
+      ),
+    ).toMatchObject({ status: "forbidden" });
+  });
+
+  it.each([
+    ["member@company.com", true, "authorized"],
+    [" MEMBER@COMPANY.COM ", true, "authorized"],
+    ["member@team.example.org", true, "authorized"],
+    ["owner@example.com", true, "authorized"],
+    ["other@example.com", true, "forbidden"],
+    ["member@sub.company.com", true, "forbidden"],
+    ["member@othercompany.com", true, "forbidden"],
+    ["member@company.com.evil.com", true, "forbidden"],
+    ["member@evil.com@company.com", true, "forbidden"],
+    ["@company.com", true, "forbidden"],
+    ["member@company.com", false, "forbidden"],
+    ["owner@example.com", false, "forbidden"],
+  ])(
+    "checks email and domain access for %s (verified: %s)",
+    (email, emailVerified, status) => {
+      const settings = resolveConsoleAuthSettings({
+        ...validEnv,
+        HOT_UPDATER_CONSOLE_ALLOWED_EMAIL_DOMAINS:
+          "company.com,team.example.org",
+      });
+
+      expect(
+        toConsoleAccess(
+          { user: { email, emailVerified } },
+          settings.allowedEmails,
+          settings.allowedEmailDomains,
+        ),
+      ).toMatchObject({ status });
+    },
+  );
+
+  it("blocks an existing session after its domain is removed", () => {
+    const session = {
+      user: { email: "member@company.com", emailVerified: true },
+    };
+    const settings = resolveConsoleAuthSettings({
+      ...validEnv,
+      HOT_UPDATER_CONSOLE_ALLOWED_EMAIL_DOMAINS: "company.com",
+    });
+
+    expect(
+      toConsoleAccess(
+        session,
+        settings.allowedEmails,
+        settings.allowedEmailDomains,
+      ),
+    ).toMatchObject({ status: "authorized" });
+
+    const updatedSettings = resolveConsoleAuthSettings(validEnv);
+    expect(
+      toConsoleAccess(
+        session,
+        updatedSettings.allowedEmails,
+        updatedSettings.allowedEmailDomains,
       ),
     ).toMatchObject({ status: "forbidden" });
   });

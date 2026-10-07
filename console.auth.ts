@@ -15,6 +15,7 @@ type ConsoleRuntimeEnv = {
   GOOGLE_CLIENT_ID?: unknown;
   GOOGLE_CLIENT_SECRET?: unknown;
   HOT_UPDATER_CONSOLE_ALLOWED_EMAILS?: unknown;
+  HOT_UPDATER_CONSOLE_ALLOWED_EMAIL_DOMAINS?: unknown;
 };
 
 type CloudflareRequest = Request & {
@@ -27,6 +28,7 @@ type CloudflareRequest = Request & {
 
 type ConsoleAuthSettings = {
   allowedEmails: ReadonlySet<string>;
+  allowedEmailDomains: ReadonlySet<string>;
   baseURL: string;
   providers: readonly ConsoleAuthProvider[];
   secret: string;
@@ -97,10 +99,6 @@ const parseAllowedEmails = (value: unknown) => {
       .filter(Boolean),
   );
 
-  if (emails.size === 0) {
-    throw new Error("HOT_UPDATER_CONSOLE_ALLOWED_EMAILS is required.");
-  }
-
   for (const email of emails) {
     if (email.includes("*") || !/^[^@\s]+@[^@\s]+$/u.test(email)) {
       throw new Error(
@@ -110,6 +108,32 @@ const parseAllowedEmails = (value: unknown) => {
   }
 
   return emails;
+};
+
+const parseAllowedEmailDomains = (value: unknown) => {
+  const domains = new Set(
+    (readString(value) ?? "")
+      .split(",")
+      .map((domain) => domain.trim().toLowerCase())
+      .filter(Boolean),
+  );
+
+  for (const domain of domains) {
+    const labels = domain.split(".");
+    if (
+      domain.length > 253 ||
+      labels.length < 2 ||
+      labels.some(
+        (label) => !/^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/u.test(label),
+      )
+    ) {
+      throw new Error(
+        "HOT_UPDATER_CONSOLE_ALLOWED_EMAIL_DOMAINS must contain domain names only (e.g. example.com), without @ or wildcards.",
+      );
+    }
+  }
+
+  return domains;
 };
 
 const parseProvider = (
@@ -157,8 +181,19 @@ export const resolveConsoleAuthSettings = (
     throw new Error("Configure at least one Google or GitHub OAuth provider.");
   }
 
+  const allowedEmails = parseAllowedEmails(env.HOT_UPDATER_CONSOLE_ALLOWED_EMAILS);
+  const allowedEmailDomains = parseAllowedEmailDomains(
+    env.HOT_UPDATER_CONSOLE_ALLOWED_EMAIL_DOMAINS,
+  );
+  if (allowedEmails.size === 0 && allowedEmailDomains.size === 0) {
+    throw new Error(
+      "Configure at least one entry in HOT_UPDATER_CONSOLE_ALLOWED_EMAILS or HOT_UPDATER_CONSOLE_ALLOWED_EMAIL_DOMAINS.",
+    );
+  }
+
   return {
-    allowedEmails: parseAllowedEmails(env.HOT_UPDATER_CONSOLE_ALLOWED_EMAILS),
+    allowedEmails,
+    allowedEmailDomains,
     baseURL: parseBaseURL(env.BETTER_AUTH_URL),
     providers,
     secret,
@@ -193,6 +228,7 @@ export const createBetterAuthOptions = (
 export const toConsoleAccess = (
   session: ConsoleSession | null,
   allowedEmails: ReadonlySet<string>,
+  allowedEmailDomains: ReadonlySet<string> = new Set(),
 ): ConsoleAccess => {
   if (!session) {
     return { status: "unauthenticated" };
@@ -204,11 +240,12 @@ export const toConsoleAccess = (
     name: session.user.name,
   };
   const normalizedEmail = session.user.email.trim().toLowerCase();
+  const emailDomain = /^[^@\s]+@([^@\s]+)$/u.exec(normalizedEmail)?.[1];
+  const isAllowed =
+    allowedEmails.has(normalizedEmail) ||
+    (emailDomain !== undefined && allowedEmailDomains.has(emailDomain));
 
-  if (
-    session.user.emailVerified !== true ||
-    !allowedEmails.has(normalizedEmail)
-  ) {
+  if (session.user.emailVerified !== true || !isAllowed) {
     return { principal, status: "forbidden" };
   }
 
@@ -227,7 +264,11 @@ const consoleAuth = {
   async getAccess(request: Request) {
     const { auth, settings } = getAuth(request);
     const session = await auth.api.getSession({ headers: request.headers });
-    return toConsoleAccess(session, settings.allowedEmails);
+    return toConsoleAccess(
+      session,
+      settings.allowedEmails,
+      settings.allowedEmailDomains,
+    );
   },
   async getProviders(request: Request) {
     return resolveConsoleAuthSettings(getConsoleRuntimeEnv(request)).providers;
