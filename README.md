@@ -80,6 +80,14 @@ Domain entries must omit `@` and wildcards. Subdomains are separate: allowing
 an email or domain blocks existing sessions on the next console request unless
 another allowlist entry still permits the address.
 
+Google addresses must be verified Gmail accounts or have a matching Google
+Workspace `hd` claim, following [Google's verification guidance](https://developers.google.com/identity/gsi/web/guides/verify-google-id-token).
+Google accounts registered with third-party email addresses without a matching
+`hd` claim are denied, including individually allowlisted addresses. GitHub
+uses the verification status of the email returned by its provider. Email-domain
+access does not check GitHub organization membership. Existing sessions require
+one new sign-in when upgrading to this verification policy.
+
 OAuth state and 24-hour sessions use encrypted cookies,
 without a separate auth database. Every protected read, write, and download
 checks access before connecting to the backend. Keep server credentials and

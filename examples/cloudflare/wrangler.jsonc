@@ -18,15 +18,6 @@
     "BETTER_AUTH_URL": "https://hot-updater-console.YOUR-SUBDOMAIN.workers.dev",
     "BUCKET_NAME": "your-existing-bundle-bucket"
   },
-  "secrets": {
-    "required": [
-      "BETTER_AUTH_SECRET",
-      "HOT_UPDATER_CONSOLE_ALLOWED_EMAILS",
-      "STORAGE_DOWNLOAD_URL_SIGNING_KEY",
-      "GITHUB_CLIENT_ID",
-      "GITHUB_CLIENT_SECRET"
-    ]
-  },
   // Bind the resources already used by your OTA server. Do not create new ones.
   "d1_databases": [
     {

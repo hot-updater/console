@@ -168,7 +168,21 @@ export const resolveConsoleAuthSettings = (
 
   if (google) {
     providers.push("google");
-    socialProviders.google = google;
+    socialProviders.google = {
+      ...google,
+      mapProfileToUser(profile) {
+        const emailDomain = /^[^@\s]+@([^@\s]+)$/u.exec(
+          profile.email.trim().toLowerCase(),
+        )?.[1];
+        return {
+          emailVerified:
+            profile.email_verified === true &&
+            emailDomain !== undefined &&
+            (emailDomain === "gmail.com" ||
+              emailDomain === profile.hd?.toLowerCase()),
+        };
+      },
+    };
   }
   if (github) {
     providers.push("github");
@@ -218,6 +232,8 @@ export const createBetterAuthOptions = (
       maxAge: SESSION_MAX_AGE_SECONDS,
       refreshCache: true,
       strategy: "jwe",
+      // Re-authenticate sessions created before Google's hosted-domain check.
+      version: "2",
     },
     expiresIn: SESSION_MAX_AGE_SECONDS,
   },
