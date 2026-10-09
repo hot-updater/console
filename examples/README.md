@@ -12,7 +12,7 @@ Choose the backend you already use, then choose a compatible Nitro host.
 
 Each Node example includes a `console.config.ts.example` to copy to `console.config.ts`, backend environment variables, and three setup steps. GitHub/Google sign-in and access rules are shared in [Basics](https://github.com/gronxb/hot-updater/blob/next/docs/content/docs/%28latest%29/guides/console-deployment/index.mdx#set-up-sign-in).
 
-Each config lists the database, storage, and plugins the server runs, as `hot-updater.config.ts` does: a managed server runs its provider's `plugins` (Insights and API keys). The console shows a feature only when its plugin is listed. To manage a self-hosted server through its admin API instead, set `database` to `standaloneRepository(...)` and list the server's plugins, as described in [Basics](https://github.com/gronxb/hot-updater/blob/next/docs/content/docs/%28latest%29/guides/console-deployment/index.mdx#connect-your-backend).
+Each config lists the database, storage, and plugins the server runs, as `hot-updater.config.ts` does: managed servers run `apiKeys()`, `insights()`, and `remoteConfig()`. The examples import these factories explicitly from `@hot-updater/server/plugins/*` and list them in `plugins`. The console shows a feature only when its plugin is listed. To manage a self-hosted server through its admin API instead, set `database` to `standaloneRepository(...)` and list the server's plugins, as described in [Basics](https://github.com/gronxb/hot-updater/blob/next/docs/content/docs/%28latest%29/guides/console-deployment/index.mdx#connect-your-backend).
 
 Install only your backend's packages. For the included Dockerfile, install them with the pnpm version in `package.json` and commit `pnpm-lock.yaml` before building.
 

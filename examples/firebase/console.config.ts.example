@@ -1,9 +1,8 @@
 import { defineConsoleConfig } from "@hot-updater/console";
-import {
-  firebaseDatabase,
-  firebaseStorage,
-  plugins,
-} from "@hot-updater/firebase";
+import { firebaseDatabase, firebaseStorage } from "@hot-updater/firebase";
+import { apiKeys } from "@hot-updater/server/plugins/api-keys";
+import { insights } from "@hot-updater/server/plugins/insights";
+import { remoteConfig } from "@hot-updater/server/plugins/remote-config";
 import { applicationDefault, cert } from "firebase-admin/app";
 
 export default defineConsoleConfig(() => {
@@ -21,7 +20,7 @@ export default defineConsoleConfig(() => {
       credential,
       storageBucket: process.env.FIREBASE_STORAGE_BUCKET!,
     }),
-    // The plugins the managed Firebase server runs: Insights and API keys.
-    plugins,
+    // The plugins the managed Firebase server runs: API keys, Insights, and Remote Config.
+    plugins: [apiKeys(), insights(), remoteConfig()],
   };
 });

@@ -23,7 +23,7 @@ Use the existing project URL, bucket name, and server-only service-role key. The
 
 Reuse your existing backend. If it uses a custom storage `basePath`, copy that setting into the storage adapter as well.
 
-The config lists the database, storage, and plugins the managed Supabase server runs. `plugins` from `@hot-updater/supabase` is that server's set: Insights and API keys. The console shows each feature only when its plugin is listed.
+The config lists the database, storage, and plugins the managed Supabase server runs. `apiKeys()`, `insights()`, and `remoteConfig()` are imported explicitly from `@hot-updater/server/plugins/*` and listed in `plugins`. The console shows each feature only when its plugin is listed.
 
 ## 3. Run or deploy
 

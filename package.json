@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@hot-updater/console": "1.0.0-rc.43",
+    "@hot-updater/server": "1.0.0-rc.43",
     "better-auth": "^1.6.23",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"

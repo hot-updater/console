@@ -1,5 +1,8 @@
-import { dynamoDB, plugins, s3Storage } from "@hot-updater/aws";
+import { dynamoDB, s3Storage } from "@hot-updater/aws";
 import { defineConsoleConfig } from "@hot-updater/console";
+import { apiKeys } from "@hot-updater/server/plugins/api-keys";
+import { insights } from "@hot-updater/server/plugins/insights";
+import { remoteConfig } from "@hot-updater/server/plugins/remote-config";
 
 export default defineConsoleConfig(() => ({
   database: dynamoDB({
@@ -11,6 +14,6 @@ export default defineConsoleConfig(() => ({
     region: process.env.AWS_REGION!,
     bucketName: process.env.AWS_S3_BUCKET_NAME!,
   }),
-  // The plugins the managed AWS server runs: Insights and API keys.
-  plugins,
+  // The plugins the managed AWS server runs: API keys, Insights, and Remote Config.
+  plugins: [apiKeys(), insights(), remoteConfig()],
 }));
