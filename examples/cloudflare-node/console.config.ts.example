@@ -1,8 +1,6 @@
 import { d1Database, r2Storage } from "@hot-updater/cloudflare";
 import { defineConsoleConfig } from "@hot-updater/console";
-import { apiKeys } from "@hot-updater/server/plugins/api-keys";
-import { insights } from "@hot-updater/server/plugins/insights";
-import { remoteConfig } from "@hot-updater/server/plugins/remote-config";
+import { apiKeys, insights, remoteConfig } from "@hot-updater/server/plugins";
 
 export default defineConsoleConfig(() => ({
   database: d1Database({
