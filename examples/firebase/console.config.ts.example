@@ -1,8 +1,6 @@
 import { defineConsoleConfig } from "@hot-updater/console";
 import { firebaseDatabase, firebaseStorage } from "@hot-updater/firebase";
-import { apiKeys } from "@hot-updater/server/plugins/api-keys";
-import { insights } from "@hot-updater/server/plugins/insights";
-import { remoteConfig } from "@hot-updater/server/plugins/remote-config";
+import { apiKeys, insights, remoteConfig } from "@hot-updater/server/plugins";
 import { applicationDefault, cert } from "firebase-admin/app";
 
 export default defineConsoleConfig(() => {

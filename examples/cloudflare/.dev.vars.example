@@ -3,7 +3,6 @@ BETTER_AUTH_URL=http://localhost:3000
 BETTER_AUTH_SECRET=
 HOT_UPDATER_CONSOLE_ALLOWED_EMAILS=owner@example.com
 HOT_UPDATER_CONSOLE_ALLOWED_EMAIL_DOMAINS=
-STORAGE_DOWNLOAD_URL_SIGNING_KEY=
 
 # Configure one complete pair. Use a separate OAuth app for local development.
 GITHUB_CLIENT_ID=

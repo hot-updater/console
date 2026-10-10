@@ -11,7 +11,6 @@ const secrets = {
   BETTER_AUTH_SECRET: "local-smoke-test-session-secret-at-least-32-characters",
   HOT_UPDATER_CONSOLE_ALLOWED_EMAILS: "",
   HOT_UPDATER_CONSOLE_ALLOWED_EMAIL_DOMAINS: "example.com",
-  STORAGE_DOWNLOAD_URL_SIGNING_KEY: "local-smoke-test-storage-key-at-least-32-characters",
   GITHUB_CLIENT_ID: "smoke-test-client",
   GITHUB_CLIENT_SECRET: "smoke-test-client-secret",
   GOOGLE_CLIENT_ID: "smoke-test-google-client",

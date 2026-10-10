@@ -2,15 +2,15 @@ allowBuilds:
   esbuild: true
   workerd: true
 minimumReleaseAgeExclude:
-  - '@hot-updater/bsdiff@1.0.0-rc.43'
-  - '@hot-updater/cli-tools@1.0.0-rc.43'
-  - '@hot-updater/cloudflare@1.0.0-rc.43'
-  - '@hot-updater/console@1.0.0-rc.43'
-  - '@hot-updater/plugin-api-keys@1.0.0-rc.43'
-  - '@hot-updater/plugin-core@1.0.0-rc.43'
-  - '@hot-updater/plugin-insights@1.0.0-rc.43'
-  - '@hot-updater/plugin-remote-config@1.0.0-rc.43'
-  - '@hot-updater/protocol@1.0.0-rc.43'
-  - '@hot-updater/server@1.0.0-rc.43'
+  - '@hot-updater/bsdiff@1.0.0-rc.44'
+  - '@hot-updater/cli-tools@1.0.0-rc.44'
+  - '@hot-updater/cloudflare@1.0.0-rc.44'
+  - '@hot-updater/console@1.0.0-rc.44'
+  - '@hot-updater/plugin-api-keys@1.0.0-rc.44'
+  - '@hot-updater/plugin-core@1.0.0-rc.44'
+  - '@hot-updater/plugin-insights@1.0.0-rc.44'
+  - '@hot-updater/plugin-remote-config@1.0.0-rc.44'
+  - '@hot-updater/protocol@1.0.0-rc.44'
+  - '@hot-updater/server@1.0.0-rc.44'
 patchedDependencies:
-  '@hot-updater/console@1.0.0-rc.43': patches/@hot-updater__console@1.0.0-rc.43.patch
+  '@hot-updater/console@1.0.0-rc.44': patches/@hot-updater__console@1.0.0-rc.44.patch

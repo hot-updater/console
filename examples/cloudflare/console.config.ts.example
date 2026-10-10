@@ -1,8 +1,6 @@
 import { d1Database, r2Storage } from "@hot-updater/cloudflare/worker";
 import { defineConsoleConfig } from "@hot-updater/console";
-import { apiKeys } from "@hot-updater/server/plugins/api-keys";
-import { insights } from "@hot-updater/server/plugins/insights";
-import { remoteConfig } from "@hot-updater/server/plugins/remote-config";
+import { apiKeys, insights, remoteConfig } from "@hot-updater/server/plugins";
 
 type CloudflareRequest = Request & {
   runtime?: { cloudflare?: { env?: Env } };
@@ -21,7 +19,6 @@ export default defineConsoleConfig((request) => {
     storage: r2Storage({
       bucket: env.BUCKET,
       bucketName: env.BUCKET_NAME,
-      downloadUrlSigningKey: env.STORAGE_DOWNLOAD_URL_SIGNING_KEY,
     }),
     // The plugins the managed Cloudflare Worker runs: API keys, Insights, and Remote Config.
     plugins: [apiKeys(), insights(), remoteConfig()],

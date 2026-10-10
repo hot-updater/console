@@ -11,6 +11,6 @@ types from that file. The config omits `secrets.required` because it filters
 local variables and cannot express the choice between email/domain allowlists
 or Google/GitHub credentials. The auth adapter validates these choices at runtime.
 
-The config builds the database and storage from the Worker's D1 and R2 bindings, and lists the plugins the managed Cloudflare server runs. `apiKeys()`, `insights()`, and `remoteConfig()` are imported explicitly from `@hot-updater/server/plugins/*` and listed in `plugins`. The console shows each feature only when its plugin is listed.
+The config builds the database and storage from the Worker's D1 and R2 bindings, and lists the plugins the managed Cloudflare server runs. `apiKeys()`, `insights()`, and `remoteConfig()` are imported explicitly from `@hot-updater/server/plugins` and listed in `plugins`. The console shows each feature only when its plugin is listed.
 
 To host the same Cloudflare backend on Vercel, Netlify, Docker, or Node, use [Cloudflare on Node](../cloudflare-node/) instead.
