@@ -16,12 +16,12 @@ version published with them.
 
 ## Deploy
 
-Follow the [Console deployment guide](https://github.com/gronxb/hot-updater/blob/next/docs/content/docs/%28latest%29/guides/console-deployment/index.mdx) to connect
+Follow the [Console deployment guide](https://github.com/gronxb/hot-updater/blob/main/docs/content/docs/%28latest%29/guides/console-deployment/index.mdx) to connect
 your backend, configure OAuth, choose a Nitro preset, deploy, and verify.
 Use Node.js 22+ and npm 11+ for the commands below.
 Choose a host independently of your managed backend: see the
-[hosting guide](https://github.com/gronxb/hot-updater/blob/next/docs/content/docs/%28latest%29/guides/console-deployment/index.mdx#choose-a-host)
-and the [Docker deployment guide](https://github.com/gronxb/hot-updater/blob/next/docs/content/docs/%28latest%29/guides/console-deployment/docker.mdx).
+[hosting guide](https://github.com/gronxb/hot-updater/blob/main/docs/content/docs/%28latest%29/guides/console-deployment/index.mdx#choose-a-host)
+and the [Docker deployment guide](https://github.com/gronxb/hot-updater/blob/main/docs/content/docs/%28latest%29/guides/console-deployment/docker.mdx).
 
 ```bash
 git clone https://github.com/hot-updater/console.git my-app-console
@@ -29,7 +29,7 @@ cd my-app-console
 npm install
 # Install your backend's package, then copy its example to
 # console.config.ts. For AWS:
-npm install --save-exact @hot-updater/aws@rc
+npm install --save-exact @hot-updater/aws
 cp examples/aws/console.config.ts.example console.config.ts
 # Set the server runtime variables, then build and start.
 npm run build:node
@@ -59,7 +59,7 @@ Choose a [backend example](examples/README.md): AWS, Firebase, Supabase, or Clou
 
 GitHub and Google sign-in are included: fill in the authentication environment
 variables to enable either provider. For another authentication system,
-[customize the adapter and sign-in flow](https://github.com/gronxb/hot-updater/blob/next/docs/content/docs/%28latest%29/guides/console-deployment/index.mdx#custom-authentication)
+[customize the adapter and sign-in flow](https://github.com/gronxb/hot-updater/blob/main/docs/content/docs/%28latest%29/guides/console-deployment/index.mdx#custom-authentication)
 in your clone.
 
 Verified emails can manage the backend when their full address matches
