@@ -1,16 +1,18 @@
 allowBuilds:
+  '@firebase/util': set this to true or false
   esbuild: true
+  protobufjs: set this to true or false
   workerd: true
 minimumReleaseAgeExclude:
-  - '@hot-updater/bsdiff@1.0.0-rc.44'
-  - '@hot-updater/cli-tools@1.0.0-rc.44'
-  - '@hot-updater/cloudflare@1.0.0-rc.44'
-  - '@hot-updater/console@1.0.0-rc.44'
-  - '@hot-updater/plugin-api-keys@1.0.0-rc.44'
-  - '@hot-updater/plugin-core@1.0.0-rc.44'
-  - '@hot-updater/plugin-insights@1.0.0-rc.44'
-  - '@hot-updater/plugin-remote-config@1.0.0-rc.44'
-  - '@hot-updater/protocol@1.0.0-rc.44'
-  - '@hot-updater/server@1.0.0-rc.44'
+  - '@hot-updater/bsdiff@1.0.0'
+  - '@hot-updater/cli-tools@1.0.0'
+  - '@hot-updater/cloudflare@1.0.0'
+  - '@hot-updater/console@1.0.0'
+  - '@hot-updater/plugin-api-keys@1.0.0'
+  - '@hot-updater/plugin-core@1.0.0'
+  - '@hot-updater/plugin-insights@1.0.0'
+  - '@hot-updater/plugin-remote-config@1.0.0'
+  - '@hot-updater/protocol@1.0.0'
+  - '@hot-updater/server@1.0.0'
 patchedDependencies:
-  '@hot-updater/console@1.0.0-rc.44': patches/@hot-updater__console@1.0.0-rc.44.patch
+  '@hot-updater/console@1.0.0': patches/@hot-updater__console@1.0.0.patch

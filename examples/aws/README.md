@@ -7,7 +7,7 @@ Connect your existing DynamoDB + S3 backend from a Nitro Node host: Vercel, Netl
 From the console repository root (Node.js 22+, npm 11+):
 
 ```bash
-npm install --save-exact @hot-updater/aws@rc
+npm install --save-exact @hot-updater/aws
 cp examples/aws/console.config.ts.example console.config.ts
 cp .env.example .env
 cat examples/aws/.env.example >> .env
@@ -17,7 +17,7 @@ If `.env` already exists, merge the example values into it instead of replacing 
 
 ## 2. Configure
 
-Fill in the backend values in `.env` and the shared [sign-in settings](https://github.com/gronxb/hot-updater/blob/next/docs/content/docs/%28latest%29/guides/console-deployment/index.mdx#set-up-sign-in). On a hosted deployment, add the same variables to the host's runtime settings.
+Fill in the backend values in `.env` and the shared [sign-in settings](https://github.com/gronxb/hot-updater/blob/main/docs/content/docs/%28latest%29/guides/console-deployment/index.mdx#set-up-sign-in). On a hosted deployment, add the same variables to the host's runtime settings.
 
 The AWS SDK uses the standard credential chain: an attached IAM role, a local profile, or runtime `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` (and `AWS_SESSION_TOKEN` for temporary credentials). Give it access to the existing table and bucket. If the OTA backend uses CloudFront, set its distribution ID and allow invalidations.
 
@@ -32,4 +32,4 @@ npm run test:type
 npm run dev
 ```
 
-Choose a [deployment host](https://github.com/gronxb/hot-updater/blob/next/docs/content/docs/%28latest%29/guides/console-deployment/index.mdx#choose-a-host), then verify sign-in, your data, and a real bundle download.
+Choose a [deployment host](https://github.com/gronxb/hot-updater/blob/main/docs/content/docs/%28latest%29/guides/console-deployment/index.mdx#choose-a-host), then verify sign-in, your data, and a real bundle download.
