@@ -105,3 +105,7 @@ npm run test:node
 CI also builds Vercel, Netlify, and Cloudflare outputs and the Docker image. Runtime smoke checks
 start the actual built Node server or Worker with test-only credentials and
 verify sign-in rendering plus denied anonymous reads, writes, and downloads.
+
+## Hot Updater updates
+
+The [Bump Hot Updater](.github/workflows/bump-hot-updater.yml) workflow checks npm every hour. When `@hot-updater/console` has a new `latest` release, `scripts/bump-hot-updater.mjs` pins the console, server, and Cloudflare packages to it, refreshes `minimumReleaseAgeExclude` and the console patch, and the workflow regenerates the lockfile and opens a `chore: update console to <version>` PR. It runs the full CI on that PR and squash-merges it when CI passes. If CI fails, the PR stays open; if the console patch no longer applies, the PR opens as a draft. To bump by hand, run `node scripts/bump-hot-updater.mjs [version]` and then `pnpm install`.

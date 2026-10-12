@@ -1,0 +1,149 @@
+name: Bump Hot Updater
+
+on:
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Hot Updater version to bump to (default: npm latest of @hot-updater/console)'
+        type: string
+        required: false
+
+concurrency:
+  group: bump-hot-updater
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    outputs:
+      opened: ${{ steps.pr.outputs.opened }}
+      version: ${{ steps.bump.outputs.version }}
+      branch: ${{ steps.pr.outputs.branch }}
+      pr: ${{ steps.pr.outputs.pr }}
+      sha: ${{ steps.pr.outputs.sha }}
+      draft: ${{ steps.install.outputs.patch_failed }}
+    env:
+      GH_TOKEN: ${{ secrets.BUMP_TOKEN || github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ secrets.BUMP_TOKEN || github.token }}
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.6.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - id: bump
+        run: node scripts/bump-hot-updater.mjs "$VERSION"
+        env:
+          VERSION: ${{ inputs.version }}
+
+      - id: existing
+        if: steps.bump.outputs.changed == 'true'
+        run: |
+          branch="chore/bump-hot-updater-${{ steps.bump.outputs.version }}"
+          echo "branch=$branch" >> "$GITHUB_OUTPUT"
+          if git ls-remote --exit-code --heads origin "$branch" > /dev/null \
+            || [ -n "$(gh pr list --head "$branch" --state all --json number --jq '.[].number')" ]; then
+            echo "Branch or PR for $branch already exists; nothing to do."
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - id: install
+        if: steps.bump.outputs.changed == 'true' && steps.existing.outputs.exists != 'true'
+        run: |
+          if pnpm install --no-frozen-lockfile; then
+            echo "patch_failed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "::warning::pnpm install failed, most likely because the console patch no longer applies."
+            echo "patch_failed=true" >> "$GITHUB_OUTPUT"
+            # Still refresh the lockfile so the draft PR only needs the patch fixed.
+            pnpm install --lockfile-only --no-frozen-lockfile || true
+          fi
+
+      - id: pr
+        if: steps.install.outcome == 'success'
+        env:
+          BRANCH: ${{ steps.existing.outputs.branch }}
+          VERSION: ${{ steps.bump.outputs.version }}
+          PREVIOUS: ${{ steps.bump.outputs.previous }}
+          PATCH_FAILED: ${{ steps.install.outputs.patch_failed }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git switch -c "$BRANCH"
+          git add -A
+          git commit -m "chore: update console to $VERSION"
+          git push origin "$BRANCH"
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+          body="Moves the console from Hot Updater $PREVIOUS to $VERSION.
+
+          - \`@hot-updater/console\`, \`@hot-updater/server\`, and \`@hot-updater/cloudflare\` are pinned to \`$VERSION\`, and the sign-in icon patch moves with them.
+          - \`minimumReleaseAgeExclude\` lists the \`@hot-updater/*\` packages these depend on at \`$VERSION\`, so the fresh release installs.
+          - \`pnpm-lock.yaml\` is regenerated.
+
+          Opened by the [Bump Hot Updater]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID) workflow."
+          draft=()
+          if [ "$PATCH_FAILED" = "true" ]; then
+            draft=(--draft)
+            body="$body
+
+          ## Patch needs a manual refresh
+
+          \`pnpm install\` failed, most likely because \`patches/@hot-updater__console@$VERSION.patch\` no longer applies to \`@hot-updater/console@$VERSION\`. Refresh it with \`pnpm patch @hot-updater/console@$VERSION\`, run \`pnpm install\`, push to this branch, and mark the PR ready. This PR is not merged automatically."
+          else
+            body="$body
+
+          ## Validation
+
+          The full CI runs in the workflow run linked above. When it passes, the workflow squash-merges this PR. If it fails, the PR stays open for review."
+          fi
+          url=$(gh pr create --base main --head "$BRANCH" --title "chore: update console to $VERSION" --body "$body" "${draft[@]}")
+          echo "pr=$url" >> "$GITHUB_OUTPUT"
+          echo "branch=$BRANCH" >> "$GITHUB_OUTPUT"
+          echo "opened=true" >> "$GITHUB_OUTPUT"
+
+  ci:
+    needs: bump
+    if: needs.bump.outputs.opened == 'true' && needs.bump.outputs.draft != 'true'
+    uses: ./.github/workflows/ci.yml
+    with:
+      ref: ${{ needs.bump.outputs.sha }}
+
+  merge:
+    needs: [bump, ci]
+    if: always() && needs.bump.outputs.opened == 'true' && needs.bump.outputs.draft != 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    env:
+      GH_TOKEN: ${{ secrets.BUMP_TOKEN || github.token }}
+      GH_REPO: ${{ github.repository }}
+      PR: ${{ needs.bump.outputs.pr }}
+      SHA: ${{ needs.bump.outputs.sha }}
+    steps:
+      - if: needs.ci.result == 'success'
+        run: |
+          # Skip if someone pushed to the branch or turned the PR into a draft meanwhile.
+          state=$(gh pr view "$PR" --json isDraft,state --jq '"\(.state) \(.isDraft)"')
+          if [ "$state" != "OPEN false" ]; then
+            echo "PR is $state; not merging."
+            exit 0
+          fi
+          gh pr merge "$PR" --squash --delete-branch --match-head-commit "$SHA"
+      - if: needs.ci.result != 'success'
+        run: |
+          gh pr comment "$PR" --body "CI did not pass on this bump ([run]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID)), so it was not merged automatically. Please take a look."

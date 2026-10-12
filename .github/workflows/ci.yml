@@ -4,12 +4,21 @@ on:
   pull_request:
   push:
     branches: [main]
+  # Called by bump-hot-updater.yml: PRs opened with GITHUB_TOKEN do not trigger pull_request runs.
+  workflow_call:
+    inputs:
+      ref:
+        description: Git ref to verify
+        type: string
+        required: true
 
 jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || '' }}
       - uses: pnpm/action-setup@v4
         with:
           version: 11.6.0
@@ -30,6 +39,8 @@ jobs:
         preset: [node_server, vercel, netlify, cloudflare_module]
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || '' }}
       - uses: pnpm/action-setup@v4
         with:
           version: 11.6.0
@@ -58,12 +69,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || '' }}
       - run: docker build -t hot-updater-console .
 
   npm-runtime:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || '' }}
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -98,6 +113,8 @@ jobs:
             package: '@hot-updater/cloudflare'
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || '' }}
       - uses: actions/setup-node@v4
         with:
           node-version: 22
