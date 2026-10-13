@@ -4,15 +4,15 @@ allowBuilds:
   protobufjs: set this to true or false
   workerd: true
 minimumReleaseAgeExclude:
-  - '@hot-updater/bsdiff@1.0.1'
-  - '@hot-updater/cli-tools@1.0.1'
-  - '@hot-updater/cloudflare@1.0.1'
-  - '@hot-updater/console@1.0.1'
-  - '@hot-updater/plugin-api-keys@1.0.1'
-  - '@hot-updater/plugin-core@1.0.1'
-  - '@hot-updater/plugin-insights@1.0.1'
-  - '@hot-updater/plugin-remote-config@1.0.1'
-  - '@hot-updater/protocol@1.0.1'
-  - '@hot-updater/server@1.0.1'
+  - '@hot-updater/bsdiff@1.0.2'
+  - '@hot-updater/cli-tools@1.0.2'
+  - '@hot-updater/cloudflare@1.0.2'
+  - '@hot-updater/console@1.0.2'
+  - '@hot-updater/plugin-api-keys@1.0.2'
+  - '@hot-updater/plugin-core@1.0.2'
+  - '@hot-updater/plugin-insights@1.0.2'
+  - '@hot-updater/plugin-remote-config@1.0.2'
+  - '@hot-updater/protocol@1.0.2'
+  - '@hot-updater/server@1.0.2'
 patchedDependencies:
-  '@hot-updater/console@1.0.1': patches/@hot-updater__console@1.0.1.patch
+  '@hot-updater/console@1.0.2': patches/@hot-updater__console@1.0.2.patch
