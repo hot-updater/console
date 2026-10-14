@@ -21,14 +21,14 @@
     "test:node": "node scripts/smoke-console.mjs node"
   },
   "dependencies": {
-    "@hot-updater/console": "1.0.2",
-    "@hot-updater/server": "1.0.2",
+    "@hot-updater/console": "1.0.5",
+    "@hot-updater/server": "1.0.5",
     "better-auth": "^1.6.23",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
   },
   "devDependencies": {
-    "@hot-updater/cloudflare": "1.0.2",
+    "@hot-updater/cloudflare": "1.0.5",
     "@types/node": "^25.5.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.0",
