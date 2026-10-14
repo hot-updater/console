@@ -71,6 +71,8 @@ jobs:
             # Still refresh the lockfile so the draft PR only needs the patch fixed.
             pnpm install --lockfile-only --no-frozen-lockfile || true
           fi
+          # The install needed the previous version's release-age exclusions; drop them now.
+          node scripts/bump-hot-updater.mjs --prune
 
       - id: pr
         if: steps.install.outcome == 'success'
