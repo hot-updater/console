@@ -1,8 +1,12 @@
 #!/usr/bin/env node
 // Bumps the pinned Hot Updater packages to a published version.
 // Usage: node scripts/bump-hot-updater.mjs [version]
+//        node scripts/bump-hot-updater.mjs --prune
 // Without a version, uses the npm `latest` dist-tag of @hot-updater/console.
 // Prints `changed=true|false` and `version=<v>` (also to $GITHUB_OUTPUT).
+// The bump keeps the previous version's release-age exclusions, because
+// `pnpm install` verifies the old lockfile entries before it resolves the new
+// ones. Run `--prune` after the install to drop them.
 import { appendFileSync, existsSync, readdirSync, readFileSync, renameSync, writeFileSync } from "node:fs";
 import { join, relative } from "node:path";
 
@@ -77,8 +81,34 @@ function output(values) {
   if (process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, `${lines.join("\n")}\n`);
 }
 
-const target = await resolveTarget(process.argv[2]);
 const pkgPath = join(root, "package.json");
+const wsPath = join(root, "pnpm-workspace.yaml");
+const isScoped = (line) => line.includes(`'${SCOPE}`) || line.includes(`"${SCOPE}`);
+
+// Replaces the entries of `minimumReleaseAgeExclude` with what `pick` returns for them.
+function rewriteExcludes(text, pick) {
+  const lines = text.split("\n");
+  const start = lines.findIndex((l) => l.startsWith("minimumReleaseAgeExclude:"));
+  if (start === -1) throw new Error("pnpm-workspace.yaml has no minimumReleaseAgeExclude");
+  let end = start + 1;
+  while (end < lines.length && /^\s+- /.test(lines[end])) end++;
+  lines.splice(start + 1, end - start - 1, ...pick(lines.slice(start + 1, end)));
+  return lines.join("\n");
+}
+
+if (process.argv[2] === "--prune") {
+  const pinned = JSON.parse(readFileSync(pkgPath, "utf8")).dependencies["@hot-updater/console"];
+  const closure = await hotUpdaterClosure(pinned);
+  const ws = rewriteExcludes(readFileSync(wsPath, "utf8"), (entries) => [
+    ...entries.filter((l) => !isScoped(l)),
+    ...closure.map((spec) => `  - '${spec}'`),
+  ]);
+  writeFileSync(wsPath, ws);
+  console.error(`Kept the release-age exclusions of Hot Updater ${pinned} only.`);
+  process.exit(0);
+}
+
+const target = await resolveTarget(process.argv[2]);
 const pkgText = readFileSync(pkgPath, "utf8");
 const pkg = JSON.parse(pkgText);
 const current = pkg.dependencies["@hot-updater/console"];
@@ -100,18 +130,12 @@ for (const [field, names] of Object.entries(PINNED)) {
 }
 writeFileSync(pkgPath, `${JSON.stringify(pkg, null, 2)}\n`);
 
-// pnpm-workspace.yaml: release-age exclusions and the patch key.
-const wsPath = join(root, "pnpm-workspace.yaml");
-let ws = readFileSync(wsPath, "utf8");
-const lines = ws.split("\n");
-const start = lines.findIndex((l) => l.startsWith("minimumReleaseAgeExclude:"));
-if (start === -1) throw new Error("pnpm-workspace.yaml has no minimumReleaseAgeExclude");
-let end = start + 1;
-while (end < lines.length && /^\s+- /.test(lines[end])) end++;
-const others = lines.slice(start + 1, end).filter((l) => !l.includes(`'${SCOPE}`) && !l.includes(`"${SCOPE}`));
-const entries = [...others, ...closure.map((spec) => `  - '${spec}'`)];
-lines.splice(start + 1, end - start - 1, ...entries);
-ws = lines.join("\n");
+// pnpm-workspace.yaml: release-age exclusions (the previous version's stay
+// until `--prune`) and the patch key.
+let ws = rewriteExcludes(readFileSync(wsPath, "utf8"), (entries) => [
+  ...entries,
+  ...closure.map((spec) => `  - '${spec}'`).filter((line) => !entries.includes(line)),
+]);
 
 const patchDir = join(root, "patches");
 const oldPatch = `patches/@hot-updater__console@${current}.patch`;
