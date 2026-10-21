@@ -104,7 +104,9 @@ npm run test:node
 
 CI also builds Vercel, Netlify, and Cloudflare outputs and the Docker image. Runtime smoke checks
 start the actual built Node server or Worker with test-only credentials and
-verify sign-in rendering plus denied anonymous reads, writes, and downloads.
+verify sign-in rendering plus denied anonymous reads, writes, and downloads. The
+Node check also loads the built `console.config.ts` from the standalone output,
+so a backend SDK that cannot run from the bundle fails before deployment.
 
 ## Hot Updater updates
 
