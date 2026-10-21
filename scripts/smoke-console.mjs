@@ -1,9 +1,10 @@
 import assert from "node:assert/strict";
 import { cp, mkdtemp, readFile, readdir, rm } from "node:fs/promises";
-import { spawn } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
 import { once } from "node:events";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { pathToFileURL } from "node:url";
 
 const runtime = process.argv[2];
 assert(["node", "cloudflare"].includes(runtime), "Choose node or cloudflare.");
@@ -18,17 +19,29 @@ const secrets = {
 };
 
 const serverDir = new URL("../.output/server/", import.meta.url);
-const resolverFile = (await readdir(serverDir, { recursive: true })).find((name) =>
-  name.includes("tanstack-start-server-fn-resolver"),
-);
-assert(resolverFile, "Build the console before running this check.");
-const resolver = await readFile(new URL(resolverFile, serverDir), "utf8");
+// The bundler decides which chunk holds the server function manifest and
+// console.config.ts, so read every chunk the build wrote.
+const chunks = [];
+for (const name of await readdir(serverDir, { recursive: true })) {
+  if (name.split(/[\\/]/).includes("node_modules") || !/\.m?js$/.test(name)) continue;
+  chunks.push({ name, source: await readFile(new URL(name, serverDir), "utf8") });
+}
 const functions = Object.fromEntries(
-  [...resolver.matchAll(/"([a-f0-9]+)":\s*\{\s*functionName: "([^"]+)"/g)].map(([, id, name]) => [
-    name,
-    id,
-  ]),
+  chunks.flatMap(({ source }) =>
+    [...source.matchAll(/"([a-f0-9]+)":\s*\{\s*functionName: "([^"]+)"/g)].map(([, id, name]) => [
+      name,
+      id,
+    ]),
+  ),
 );
+assert(Object.keys(functions).length > 0, "Build the console before running this check.");
+// console.config.ts loads only on a signed-in request, which this check never
+// makes. Its chunk is imported directly, so a backend SDK the build cannot
+// bundle fails here instead of on the first sign-in.
+const configChunks = chunks
+  .filter(({ source }) => source.includes("defineConsoleConfig"))
+  .map(({ name }) => name);
+assert(configChunks.length > 0, "The build is missing console.config.ts.");
 
 let server;
 let standaloneDirectory;
@@ -91,6 +104,18 @@ if (runtime === "cloudflare") {
 }
 
 try {
+  // The standalone copy holds only what the build traced, as a deployment does.
+  if (standaloneDirectory) {
+    for (const name of configChunks) {
+      const chunk = pathToFileURL(join(standaloneDirectory, "server", name)).href;
+      const result = spawnSync(
+        process.execPath,
+        ["--input-type=module", "--eval", `await import(${JSON.stringify(chunk)});`],
+        { cwd: standaloneDirectory, encoding: "utf8" },
+      );
+      assert.equal(result.status, 0, `console.config.ts failed to load:\n${result.stderr}`);
+    }
+  }
   await server.listen();
   const page = await server.fetch("http://localhost/insights");
   assert.equal(page.status, 200, "The server must render, not just build.");
@@ -119,7 +144,9 @@ try {
     });
     assert.equal(response.status, 401, `${name}: ${await response.text()}`);
   }
-  console.log(`${runtime} runtime: sign-in, session, protected read/write, and download passed.`);
+  console.log(
+    `${runtime} runtime: ${runtime === "node" ? "console.config.ts load, " : ""}sign-in, session, protected read/write, and download passed.`,
+  );
 } finally {
   await server.close();
   if (standaloneDirectory) await rm(standaloneDirectory, { recursive: true, force: true });
