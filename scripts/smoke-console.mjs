@@ -106,6 +106,16 @@ try {
   const download = await server.fetch("http://localhost/api/bundles/nonexistent/download");
   assert.equal(download.status, 401, "Downloads authorize before reading storage.");
 
+  // The vault routes ask for a vault token, before reading any config, and a
+  // session cookie does not stand in for one.
+  for (const headers of [{}, { Cookie: "better-auth.session_token=smoke" }]) {
+    const vault = await server.fetch("http://localhost/_hot-updater/vault/v1/secrets", { headers });
+    assert.equal(vault.status, 401, "The vault routes ask for a vault token.");
+    assert.equal(vault.headers.get("cache-control"), "no-store");
+    assert.equal(vault.headers.get("www-authenticate"), 'Bearer realm="hot-updater-vault"');
+    assert.equal((await vault.json()).error.code, "unauthorized");
+  }
+
   for (const [name, method] of [
     ["getChannels_createServerFn_handler", "GET"],
     ["createChannel_createServerFn_handler", "POST"],
@@ -119,7 +129,7 @@ try {
     });
     assert.equal(response.status, 401, `${name}: ${await response.text()}`);
   }
-  console.log(`${runtime} runtime: sign-in, session, protected read/write, and download passed.`);
+  console.log(`${runtime} runtime: sign-in, session, protected read/write, download, and vault token passed.`);
 } finally {
   await server.close();
   if (standaloneDirectory) await rm(standaloneDirectory, { recursive: true, force: true });
