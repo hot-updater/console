@@ -21,6 +21,9 @@ export default defineConsoleConfig((request) => {
       bucketName: env.BUCKET_NAME,
     }),
     // The plugins the managed Cloudflare Worker runs: API keys, Insights, and Remote Config.
+    // To serve the vault, add vault() from @hot-updater/server/plugins after
+    // `hot-updater doctor --fix` creates its tables, with the Worker secret:
+    //   vault({ masterKey: env.HOT_UPDATER_VAULT_MASTER_KEY })
     plugins: [apiKeys(), insights(), remoteConfig()],
   };
 });

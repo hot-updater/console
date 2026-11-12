@@ -88,6 +88,13 @@ uses the verification status of the email returned by its provider. Email-domain
 access does not check GitHub organization membership. Existing sessions require
 one new sign-in when upgrading to this verification policy.
 
+The vault routes under `/_hot-updater/vault/v1/` are the exception: CI calls
+them with `Authorization: Bearer <vault token>`, so sign-in and the allowlists
+never apply to them, and a session cookie does not open them. They serve only
+when `console.config.ts` lists `vault()` and `HOT_UPDATER_VAULT_MASTER_KEY` is set
+in the runtime environment; see the
+[vault routes](https://github.com/gronxb/hot-updater/blob/main/docs/content/docs/%28latest%29/guides/console-deployment/vault.mdx).
+
 OAuth state and 24-hour sessions use encrypted cookies,
 without a separate auth database. Every protected read, write, and download
 checks access before connecting to the backend. Keep server credentials and
@@ -104,7 +111,8 @@ npm run test:node
 
 CI also builds Vercel, Netlify, and Cloudflare outputs and the Docker image. Runtime smoke checks
 start the actual built Node server or Worker with test-only credentials and
-verify sign-in rendering plus denied anonymous reads, writes, and downloads.
+verify sign-in rendering plus denied anonymous reads, writes, and downloads,
+and that the vault routes ask for a vault token rather than a session.
 
 ## Hot Updater updates
 

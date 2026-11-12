@@ -392,6 +392,16 @@ describe("consoleAuth", () => {
     }
   });
 
+  it("never authorizes a vault token: the vault routes check it, not the session", async () => {
+    for (const path of ["/_serverFn/abc", "/_hot-updater/vault/v1/secrets"]) {
+      const request = createRuntimeRequest(path);
+      request.headers.set("Authorization", `Bearer hu_vault_${"A".repeat(43)}`);
+      await expect(consoleAuth.getAccess(request)).resolves.toEqual({
+        status: "unauthenticated",
+      });
+    }
+  });
+
   it("reports runtime-enabled providers without exposing credentials", async () => {
     await expect(
       consoleAuth.getProviders(createRuntimeRequest()),
