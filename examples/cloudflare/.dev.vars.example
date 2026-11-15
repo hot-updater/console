@@ -9,3 +9,7 @@ GITHUB_CLIENT_ID=
 GITHUB_CLIENT_SECRET=
 GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
+
+# Opens the vault's secrets, when console.config.ts lists vault().
+# Generate with: openssl rand -base64 32
+HOT_UPDATER_VAULT_MASTER_KEY=
