@@ -5,18 +5,18 @@ settings:
   excludeLinksFromLockfile: false
 
 patchedDependencies:
-  '@hot-updater/console@1.1.17': ca5a88dcea3980c3c216f66f36b713f00411894f546755d44a030e5c41473475
+  '@hot-updater/console@1.1.18': ca5a88dcea3980c3c216f66f36b713f00411894f546755d44a030e5c41473475
 
 importers:
 
   .:
     dependencies:
       '@hot-updater/console':
-        specifier: 1.1.17
-        version: 1.1.17(patch_hash=ca5a88dcea3980c3c216f66f36b713f00411894f546755d44a030e5c41473475)(@hot-updater/cli-tools@1.1.17(kysely@0.29.3))(@neodrag/core@3.0.0-next.11)(@tanstack/query-core@5.104.0)(@tanstack/router-core@1.171.37)(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(chokidar@5.0.0)(csstype@3.2.3)(dotenv@17.4.2)(esbuild@0.28.1)(jiti@2.7.0)(kysely@0.29.3)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.8)(react@19.2.7)(redux@5.0.1)(rolldown@1.1.4)(solid-js@1.9.15)(typescript@6.0.3)(vite@8.0.8(@types/node@25.9.4)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0))(wrangler@4.129.0)
+        specifier: 1.1.18
+        version: 1.1.18(patch_hash=ca5a88dcea3980c3c216f66f36b713f00411894f546755d44a030e5c41473475)(@hot-updater/cli-tools@1.1.18(kysely@0.29.3))(@neodrag/core@3.0.0-next.11)(@tanstack/query-core@5.104.0)(@tanstack/router-core@1.171.37)(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(chokidar@5.0.0)(csstype@3.2.3)(dotenv@17.4.2)(esbuild@0.28.1)(jiti@2.7.0)(kysely@0.29.3)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.8)(react@19.2.7)(redux@5.0.1)(rolldown@1.1.4)(solid-js@1.9.15)(typescript@6.0.3)(vite@8.0.8(@types/node@25.9.4)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0))(wrangler@4.129.0)
       '@hot-updater/server':
-        specifier: 1.1.17
-        version: 1.1.17(kysely@0.29.3)
+        specifier: 1.1.18
+        version: 1.1.18(kysely@0.29.3)
       better-auth:
         specifier: ^1.6.23
         version: 1.6.23(@tanstack/react-start@1.169.1(esbuild@0.28.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(rolldown@1.1.4)(vite@8.0.8(@types/node@25.9.4)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0)))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(solid-js@1.9.15)(vitest@4.1.4(@types/node@25.9.4)(vite@8.0.8(@types/node@25.9.4)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0)))
@@ -28,8 +28,8 @@ importers:
         version: 19.2.7(react@19.2.7)
     devDependencies:
       '@hot-updater/cloudflare':
-        specifier: 1.1.17
-        version: 1.1.17(kysely@0.29.3)
+        specifier: 1.1.18
+        version: 1.1.18(kysely@0.29.3)
       '@types/node':
         specifier: ^25.5.0
         version: 25.9.4
@@ -657,18 +657,18 @@ packages:
     peerDependencies:
       hono: ^4
 
-  '@hot-updater/bsdiff@1.1.17':
-    resolution: {integrity: sha512-A4h+5g4z6M6ZlZm7ZzBzdWbkRNNOeDunP8iaQGsQsBXJGNK8+ATR31/C5WcMObTUmhcvQizkTx17LiObAL5tUQ==}
+  '@hot-updater/bsdiff@1.1.18':
+    resolution: {integrity: sha512-PkZMYd6Woj4UQGDD3YflI2UiYjc9DSWkcTu+PKz2inTvbid8qXF3ZXTCx4JgTh5aJXwYEbtz85eOiZ0EG4YPqw==}
 
-  '@hot-updater/cli-tools@1.1.17':
-    resolution: {integrity: sha512-rIuijYvcQEk+yYIEVSNK6XxMkLHXfXtHgw+6q795LBRIEZDLZbSbaVlZZMB7psCbhpQTIaAh42wW9ylBoFhjIA==}
+  '@hot-updater/cli-tools@1.1.18':
+    resolution: {integrity: sha512-YTw4jmLum19XjpSOBLjBJ+pCUSO9QnTSd31L29PfULN6lD7U7eoeVDtXaNkBO/chwvs/rAptOg0QGgCh+sg+SQ==}
     engines: {node: ^22.23.4 || ^24.22.1 || >=26.12.1}
 
-  '@hot-updater/cloudflare@1.1.17':
-    resolution: {integrity: sha512-jayTZmDPAc0KSXkb3gSzPGrw4aj7c600hrPOh6h1aTxvqqdlnR7BTMdfM8EzH1hj0I02s+Dv6HREDYwNTdtwIg==}
+  '@hot-updater/cloudflare@1.1.18':
+    resolution: {integrity: sha512-g7dE3cj0vq+qJc5Uk7mg7AYftVIFUMh1bHvkuDBSTLasQdnS8UlGmd8rqUy47Oi3gDtRFegZsWgjpowH/gGP+g==}
 
-  '@hot-updater/console@1.1.17':
-    resolution: {integrity: sha512-PA6+enNRpQoW7WMTcNgvu8c+UPxftnxUxi37SkrAsJj6ZX3A5l2c6rsnhtDYKKzt3R4mvgWOarkPmSZ08MGefQ==}
+  '@hot-updater/console@1.1.18':
+    resolution: {integrity: sha512-NYSDvZRJKHdnWxjARxE/mJkTCJ9fa1/1rS0joRW74g9TQPpohY/pechP/2Og3lnmQJdUX+HHp4EnKnEOaAG8Mw==}
     peerDependencies:
       '@hot-updater/cli-tools': '*'
       react: ^19.0.0
@@ -678,35 +678,35 @@ packages:
       '@hot-updater/cli-tools':
         optional: true
 
-  '@hot-updater/plugin-api-keys@1.1.17':
-    resolution: {integrity: sha512-0iuJU6PVM3304tUstnR/alEp/gk1E0qPov9ec8FvBbzDyHGivSrQObW7Vz1i386pEfZfz3ZeqPP3DsAxs4tGNw==}
+  '@hot-updater/plugin-api-keys@1.1.18':
+    resolution: {integrity: sha512-CRM0TSmu6nrX17KK8Vnk5alNLp5iztX4zk9nC+GcisMpEpVBYjpdaahjgJ9FS+XX6FhDgwcJWPyZoHVD2nv0cg==}
     peerDependencies:
-      '@hot-updater/plugin-core': ^1.1.17
+      '@hot-updater/plugin-core': ^1.1.18
 
-  '@hot-updater/plugin-core@1.1.17':
-    resolution: {integrity: sha512-PcOOJGKLPq4tiSv4mLyKxKhVM4ckqb6sy9dsybfNzDznddgHH2lCLuWM7rfAuoQJ4sp+jWMjlNrDu3vIPYXxbA==}
+  '@hot-updater/plugin-core@1.1.18':
+    resolution: {integrity: sha512-RKkPLKWMymG6ymCEky/EtJcbJyoyYFVfKZ3zqX3dy3RWZns/yrgkPyKew1cVRL7w+ITqOaYkuq3eVtbwk2E/eQ==}
 
-  '@hot-updater/plugin-insights@1.1.17':
-    resolution: {integrity: sha512-5YjqoE4egxda0Ez7+YYoaA9Z981i4+UNhEWT2p17vGCxabSfo2cWRQpa19TUldSMY0PVluf9o3ny/SA+DnuJYg==}
+  '@hot-updater/plugin-insights@1.1.18':
+    resolution: {integrity: sha512-837is/GNyJHYIvy68wd88ZC7+oRWy63DGdKUTsd4on4fTOVnteI2aKeEduxAbAD+lBt7yHvO+3djJHzHrZ/E2A==}
     peerDependencies:
-      '@hot-updater/plugin-core': ^1.1.17
+      '@hot-updater/plugin-core': ^1.1.18
     peerDependenciesMeta:
       '@hot-updater/plugin-core':
         optional: true
 
-  '@hot-updater/plugin-remote-config@1.1.17':
-    resolution: {integrity: sha512-0Lh+ufcoPXwCJK9HQfkTPRSFSl6HOkdQK07Od3J0H0vqOnGEhl4fAAeOuBvQ12oNovUuHze+CrksukGBr4VXPw==}
+  '@hot-updater/plugin-remote-config@1.1.18':
+    resolution: {integrity: sha512-xgELvmkUQs157DLYMxPbxkkzScWdw/8o9a32x9ccRtliNpjEhBziTU7PRx/epWx+LRJE2bn2b3hPQiy9VsBEUA==}
     peerDependencies:
-      '@hot-updater/plugin-core': ^1.1.17
+      '@hot-updater/plugin-core': ^1.1.18
     peerDependenciesMeta:
       '@hot-updater/plugin-core':
         optional: true
 
-  '@hot-updater/protocol@1.1.17':
-    resolution: {integrity: sha512-mEKJvwayQuzn1MUw4i1OC8TjUMTMVQ9XJDEHm8HbUil4acjOauSgu4xxxfYdwXXLlvz2BPiNG6AhkVKuZTBdYg==}
+  '@hot-updater/protocol@1.1.18':
+    resolution: {integrity: sha512-vrZSqyxUK6MdRRi/OfyxJ6y7H8YwfIuS1UzLVZCa5z2gCbJpeiA4sL8LuL4N5d2lVoSPCv9H5+WgU4WVfPu8bQ==}
 
-  '@hot-updater/server@1.1.17':
-    resolution: {integrity: sha512-3DJ37lATDgxlcxF3//bCV7uEuD+wgRHDJJfEbVayrklLpmufYyn6yYSLIiRJ5RibQS+BqQbM3/s6Rxf7liAqwA==}
+  '@hot-updater/server@1.1.18':
+    resolution: {integrity: sha512-db+fr4F/kFbOj9Nxu3Af1so5AfMk2X7CvrjuXUkhVtcq2isxNCINKIxLmPgShGc8OipM+LeK/l4KQMhgFO0Dvw==}
     peerDependencies:
       '@prisma/client': '*'
       drizzle-orm: '*'
@@ -722,8 +722,8 @@ packages:
       mongodb:
         optional: true
 
-  '@hot-updater/storage-s3@1.1.17':
-    resolution: {integrity: sha512-8vKtSiU5RQr58fA9Qc5eux8ckFNs1k8TYlp1oifkuXbf8cMZoP9c7mFpqXGTrB5Mr13ohw+/0Ll4A9gxCIfqEg==}
+  '@hot-updater/storage-s3@1.1.18':
+    resolution: {integrity: sha512-SkzqhwgXq401CEIFfXFLVUzNzPc5Gyb5HMONk+D3/oCy6q/OLQ1fBJ3mi2b4YMo49CcUEFDQ/D6/CyL+A9e8Dw==}
 
   '@iarna/toml@2.2.5':
     resolution: {integrity: sha512-trnsAYxU3xnS1gPHPyU961coFyLkh4gAD/0zQ5mymY4yOZ+CYvsPqUbOFSw0aDM4y0tV7tiFxL/1XfXPNC6IPg==}
@@ -4892,13 +4892,13 @@ snapshots:
     dependencies:
       hono: 4.13.2
 
-  '@hot-updater/bsdiff@1.1.17': {}
+  '@hot-updater/bsdiff@1.1.18': {}
 
-  '@hot-updater/cli-tools@1.1.17(kysely@0.29.3)':
+  '@hot-updater/cli-tools@1.1.18(kysely@0.29.3)':
     dependencies:
-      '@hot-updater/plugin-core': 1.1.17
-      '@hot-updater/protocol': 1.1.17
-      '@hot-updater/server': 1.1.17(kysely@0.29.3)
+      '@hot-updater/plugin-core': 1.1.18
+      '@hot-updater/protocol': 1.1.18
+      '@hot-updater/server': 1.1.18(kysely@0.29.3)
       oxc-parser: 0.141.0
       oxc-transform: 0.141.0
       unconfig: 7.5.0
@@ -4908,13 +4908,13 @@ snapshots:
       - kysely
       - mongodb
 
-  '@hot-updater/cloudflare@1.1.17(kysely@0.29.3)':
+  '@hot-updater/cloudflare@1.1.18(kysely@0.29.3)':
     dependencies:
-      '@hot-updater/cli-tools': 1.1.17(kysely@0.29.3)
-      '@hot-updater/plugin-core': 1.1.17
-      '@hot-updater/protocol': 1.1.17
-      '@hot-updater/server': 1.1.17(kysely@0.29.3)
-      '@hot-updater/storage-s3': 1.1.17
+      '@hot-updater/cli-tools': 1.1.18(kysely@0.29.3)
+      '@hot-updater/plugin-core': 1.1.18
+      '@hot-updater/protocol': 1.1.18
+      '@hot-updater/server': 1.1.18(kysely@0.29.3)
+      '@hot-updater/storage-s3': 1.1.18
       cloudflare: 4.2.0
       hono: 4.12.34
       uuidv7: 1.2.1
@@ -4925,14 +4925,14 @@ snapshots:
       - kysely
       - mongodb
 
-  '@hot-updater/console@1.1.17(patch_hash=ca5a88dcea3980c3c216f66f36b713f00411894f546755d44a030e5c41473475)(@hot-updater/cli-tools@1.1.17(kysely@0.29.3))(@neodrag/core@3.0.0-next.11)(@tanstack/query-core@5.104.0)(@tanstack/router-core@1.171.37)(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(chokidar@5.0.0)(csstype@3.2.3)(dotenv@17.4.2)(esbuild@0.28.1)(jiti@2.7.0)(kysely@0.29.3)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.8)(react@19.2.7)(redux@5.0.1)(rolldown@1.1.4)(solid-js@1.9.15)(typescript@6.0.3)(vite@8.0.8(@types/node@25.9.4)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0))(wrangler@4.129.0)':
+  '@hot-updater/console@1.1.18(patch_hash=ca5a88dcea3980c3c216f66f36b713f00411894f546755d44a030e5c41473475)(@hot-updater/cli-tools@1.1.18(kysely@0.29.3))(@neodrag/core@3.0.0-next.11)(@tanstack/query-core@5.104.0)(@tanstack/router-core@1.171.37)(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(chokidar@5.0.0)(csstype@3.2.3)(dotenv@17.4.2)(esbuild@0.28.1)(jiti@2.7.0)(kysely@0.29.3)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.8)(react@19.2.7)(redux@5.0.1)(rolldown@1.1.4)(solid-js@1.9.15)(typescript@6.0.3)(vite@8.0.8(@types/node@25.9.4)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0))(wrangler@4.129.0)':
     dependencies:
       '@base-ui/react': 1.7.0(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@fontsource-variable/inter': 5.3.0
-      '@hot-updater/bsdiff': 1.1.17
-      '@hot-updater/plugin-core': 1.1.17
-      '@hot-updater/protocol': 1.1.17
-      '@hot-updater/server': 1.1.17(kysely@0.29.3)
+      '@hot-updater/bsdiff': 1.1.18
+      '@hot-updater/plugin-core': 1.1.18
+      '@hot-updater/protocol': 1.1.18
+      '@hot-updater/server': 1.1.18(kysely@0.29.3)
       '@tailwindcss/vite': 4.3.3(vite@8.0.8(@types/node@25.9.4)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0))
       '@tanstack/react-devtools': 0.10.10(@neodrag/core@3.0.0-next.11)(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(csstype@3.2.3)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(solid-js@1.9.15)
       '@tanstack/react-query': 5.104.0(react@19.2.7)
@@ -4959,7 +4959,7 @@ snapshots:
       verkit: 0.4.0
       vite: 8.0.8(@types/node@25.9.4)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0)
     optionalDependencies:
-      '@hot-updater/cli-tools': 1.1.17(kysely@0.29.3)
+      '@hot-updater/cli-tools': 1.1.18(kysely@0.29.3)
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -5031,50 +5031,50 @@ snapshots:
       - xml2js
       - zephyr-agent
 
-  '@hot-updater/plugin-api-keys@1.1.17(@hot-updater/plugin-core@1.1.17)':
+  '@hot-updater/plugin-api-keys@1.1.18(@hot-updater/plugin-core@1.1.18)':
     dependencies:
-      '@hot-updater/plugin-core': 1.1.17
+      '@hot-updater/plugin-core': 1.1.18
 
-  '@hot-updater/plugin-core@1.1.17':
+  '@hot-updater/plugin-core@1.1.18':
     dependencies:
-      '@hot-updater/protocol': 1.1.17
+      '@hot-updater/protocol': 1.1.18
       es-toolkit: 1.51.0
       mime: 4.1.0
       verkit: 0.4.0
 
-  '@hot-updater/plugin-insights@1.1.17(@hot-updater/plugin-core@1.1.17)':
+  '@hot-updater/plugin-insights@1.1.18(@hot-updater/plugin-core@1.1.18)':
     dependencies:
-      '@hot-updater/protocol': 1.1.17
+      '@hot-updater/protocol': 1.1.18
     optionalDependencies:
-      '@hot-updater/plugin-core': 1.1.17
+      '@hot-updater/plugin-core': 1.1.18
 
-  '@hot-updater/plugin-remote-config@1.1.17(@hot-updater/plugin-core@1.1.17)':
+  '@hot-updater/plugin-remote-config@1.1.18(@hot-updater/plugin-core@1.1.18)':
     dependencies:
-      '@hot-updater/protocol': 1.1.17
+      '@hot-updater/protocol': 1.1.18
       verkit: 0.4.0
     optionalDependencies:
-      '@hot-updater/plugin-core': 1.1.17
+      '@hot-updater/plugin-core': 1.1.18
 
-  '@hot-updater/protocol@1.1.17': {}
+  '@hot-updater/protocol@1.1.18': {}
 
-  '@hot-updater/server@1.1.17(kysely@0.29.3)':
+  '@hot-updater/server@1.1.18(kysely@0.29.3)':
     dependencies:
-      '@hot-updater/plugin-api-keys': 1.1.17(@hot-updater/plugin-core@1.1.17)
-      '@hot-updater/plugin-core': 1.1.17
-      '@hot-updater/plugin-insights': 1.1.17(@hot-updater/plugin-core@1.1.17)
-      '@hot-updater/plugin-remote-config': 1.1.17(@hot-updater/plugin-core@1.1.17)
-      '@hot-updater/protocol': 1.1.17
+      '@hot-updater/plugin-api-keys': 1.1.18(@hot-updater/plugin-core@1.1.18)
+      '@hot-updater/plugin-core': 1.1.18
+      '@hot-updater/plugin-insights': 1.1.18(@hot-updater/plugin-core@1.1.18)
+      '@hot-updater/plugin-remote-config': 1.1.18(@hot-updater/plugin-core@1.1.18)
+      '@hot-updater/protocol': 1.1.18
       rou3: 0.7.9
       verkit: 0.4.0
     optionalDependencies:
       kysely: 0.29.3
 
-  '@hot-updater/storage-s3@1.1.17':
+  '@hot-updater/storage-s3@1.1.18':
     dependencies:
       '@aws-sdk/client-s3': 3.1066.0
       '@aws-sdk/lib-storage': 3.1066.0(@aws-sdk/client-s3@3.1066.0)
       '@aws-sdk/s3-request-presigner': 3.1066.0
-      '@hot-updater/plugin-core': 1.1.17
+      '@hot-updater/plugin-core': 1.1.18
 
   '@iarna/toml@2.2.5': {}
 
